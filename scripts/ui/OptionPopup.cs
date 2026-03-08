@@ -5,119 +5,119 @@ using System.Text.RegularExpressions;
 
 public partial class OptionPopup : Control
 {
-    [Export]
-    public string Header = "Header";
+	[Export]
+	public string Header = "Header";
 
-    [Export]
-    public string Info = "Information goes here";
+	[Export]
+	public string Info = "Information goes here";
 
-    public bool Shown = false;
-    public Dictionary<string, Button> Options = [];
+	public bool Shown = false;
+	public Dictionary<string, Button> Options = [];
 
 	private readonly PackedScene template = GD.Load<PackedScene>("res://prefabs/option_popup.tscn");
 
-    private Label headerLabel;
-    private RichTextLabel infoLabel;
-    private HBoxContainer buttonContainer;
-    private Button buttonTemplate;
+	private Label headerLabel;
+	private RichTextLabel infoLabel;
+	private HBoxContainer buttonContainer;
+	private Button buttonTemplate;
 
 	public OptionPopup() { }
 
 	public OptionPopup(string header, string info)
 	{
-        Util.Misc.CopyReference(this, template.Instantiate<OptionPopup>());
+		Util.Misc.CopyReference(this, template.Instantiate<OptionPopup>());
 
-        Header = header;
-        Info = info;
-        Name = $"OptionPopup{new Regex("[^a-zA-Z0-9_-]").Replace(Header, "")}";
+		Header = header;
+		Info = info;
+		Name = $"OptionPopup{new Regex("[^a-zA-Z0-9_-]").Replace(Header, "")}";
 
-        SceneManager.Root.AddChild(this);
-    }
+		SceneManager.Root.AddChild(this);
+	}
 
-    public override void _Ready()
-    {
-        Node container = GetNode("Holder").GetNode("VBoxContainer");
+	public override void _Ready()
+	{
+		Node container = GetNode("Holder").GetNode("VBoxContainer");
 		
-        headerLabel = container.GetNode<Label>("Header");
-        infoLabel = container.GetNode<RichTextLabel>("Info");
-        buttonContainer = container.GetNode<HBoxContainer>("Buttons");
-        buttonTemplate = buttonContainer.GetNode<Button>("ButtonTemplate");
+		headerLabel = container.GetNode<Label>("Header");
+		infoLabel = container.GetNode<RichTextLabel>("Info");
+		buttonContainer = container.GetNode<HBoxContainer>("Buttons");
+		buttonTemplate = buttonContainer.GetNode<Button>("ButtonTemplate");
 
-        headerLabel.Text = Header;
-        infoLabel.Text = Info;
+		headerLabel.Text = Header;
+		infoLabel.Text = Info;
 
-        GetNode<Button>("Hide").Pressed += Hide;
+		GetNode<Button>("Hide").Pressed += Hide;
 
-        Visible = false;
-        Modulate = Color.Color8(255, 255, 255, 0);
-    }
+		Visible = false;
+		Modulate = Color.Color8(255, 255, 255, 0);
+	}
 
-    public override void _Input(InputEvent @event)
-    {
-        if (@event is InputEventKey eventKey && eventKey.Pressed && Shown)
+	public override void _Input(InputEvent @event)
+	{
+		if (@event is InputEventKey eventKey && eventKey.Pressed && Shown)
 		{
-            switch (eventKey.Keycode)
+			switch (eventKey.Keycode)
 			{
 				case Key.Escape:
-                    Hide();
-                    GetViewport().SetInputAsHandled();
-                    break;
-            }
+					Hide();
+					GetViewport().SetInputAsHandled();
+					break;
+			}
 		}
-    }
+	}
 
 	public void AddOption(string text, Callable callback, string tooltip = null)
 	{
 		if (!IsInsideTree())
 		{
-            throw new("Popup must be in scene tree before adding options");
-        }
+			throw new("Popup must be in scene tree before adding options");
+		}
 
-        Button button = buttonTemplate.Duplicate() as Button;
+		Button button = buttonTemplate.Duplicate() as Button;
 
-        button.Text = text;
-        button.TooltipText = tooltip;
-        button.Visible = true;
-        button.Pressed += () => {
-            Hide();
-            callback.Call();
-        };
+		button.Text = text;
+		button.TooltipText = tooltip;
+		button.Visible = true;
+		button.Pressed += () => {
+			Hide();
+			callback.Call();
+		};
 
-        buttonContainer.AddChild(button);
-        Options[text] = button;
-    }
+		buttonContainer.AddChild(button);
+		Options[text] = button;
+	}
 
 	public void Show(bool show = true)
 	{
-        Shown = show;
+		Shown = show;
 
-        MoveToFront();
+		MoveToFront();
 
-        if (show) { Visible = true; }
+		if (show) { Visible = true; }
 		
-        Tween tween = CreateTween().SetTrans(Tween.TransitionType.Quad);
-        tween.TweenProperty(this, "modulate", Color.Color8(255, 255, 255, (byte)(show ? 255 : 0)), 0.1);
-        tween.TweenCallback(Callable.From(() => {
-            Visible = Shown;
-        }));
-    }
+		Tween tween = CreateTween().SetTrans(Tween.TransitionType.Quad);
+		tween.TweenProperty(this, "modulate", Color.Color8(255, 255, 255, (byte)(show ? 255 : 0)), 0.1);
+		tween.TweenCallback(Callable.From(() => {
+			Visible = Shown;
+		}));
+	}
 
 	public void Hide()
 	{
-        Show(false);
-    }
+		Show(false);
+	}
 
 	public void UpdateHeader(string header)
 	{
-        Header = header;
-        headerLabel.Text = header;
-    }
+		Header = header;
+		headerLabel.Text = header;
+	}
 
 	public void UpdateInfo(string info)
 	{
-        Info = info;
-        infoLabel.Text = info;
-    }
+		Info = info;
+		infoLabel.Text = info;
+	}
 
 
 }

@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://cwdd0qg7m3tnk" path="res://scripts/ui/menu/play/MapButtonWide.cs" id="1_4823j"]
 [ext_resource type="Shader" uid="uid://rngh60dyh10b" path="res://scripts/shaders/outline.gdshader" id="2_84wsl"]
-[ext_resource type="Shader" uid="uid://b38n4irr1f443" path="res://user/skins/default/ui/play/map_button_cover.gdshader" id="3_d10q8"]
-[ext_resource type="Texture2D" uid="uid://cacq7g5ijo7sy" path="res://user/skins/default/ui/play/favorite.png" id="4_ew23d"]
+[ext_resource type="Shader" uid="uid://b38n4irr1f443" path="res://user/skins/nebula/ui/play/map_button_cover.gdshader" id="3_d10q8"]
+[ext_resource type="Texture2D" uid="uid://cacq7g5ijo7sy" path="res://user/skins/nebula/ui/play/favorite.png" id="4_ew23d"]
 [ext_resource type="Theme" uid="uid://dhuhu3mmaew1a" path="res://themes/theme.tres" id="5_mpifo"]
 [ext_resource type="Shader" uid="uid://d0g8fej0676c" path="res://scripts/shaders/linear_alpha_gradient.gdshader" id="6_frxlp"]
 
@@ -16,7 +16,7 @@ corner_radius_bottom_left = 5
 shader = ExtResource("2_84wsl")
 shader_parameter/outline_color = Color(0.05, 0.05, 0.05, 1)
 shader_parameter/outline_opacity = 1.0
-shader_parameter/light_color = Color(0.7882353, 0, 0.27058825, 1)
+shader_parameter/light_color = Color(0.7882353, 0, 0.7882353, 1)
 shader_parameter/cursor_light_color = Color(0.15, 0.15, 0.15, 1)
 shader_parameter/fill = 0.0
 shader_parameter/glow_radius = 350.0

@@ -91,6 +91,6 @@ void fragment() {
 	alpha = clamp(alpha, 0.0, 1.0);
 	float t = mod(floor(alpha * 96.0), 20.0) == 0.0 ? 1.0 : 0.0;
 	
-	COLOR = mix(COLOR, vec4(1.0, 0.375, alpha / 1.75, 1.0), (t + (1.0 - pow(alpha, 50.0)) / 20.0) * opaqueness);
+	COLOR = mix(COLOR, vec4(1.0, 0.0, 1.0, 1.0), (t + (1.0 - pow(alpha, 50.0)) / 20.0) * opaqueness);
 	COLOR = mix(COLOR, COLOR.bgra, sin(TIME / 10.0) / 2.0 + 0.5);
 }

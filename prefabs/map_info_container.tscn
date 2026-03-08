@@ -2,25 +2,25 @@
 
 [ext_resource type="Script" uid="uid://bhox71y4fbivo" path="res://scripts/ui/menu/play/MapInfoContainer.cs" id="1_50xtp"]
 [ext_resource type="Shader" uid="uid://rngh60dyh10b" path="res://scripts/shaders/outline.gdshader" id="2_nrche"]
-[ext_resource type="Texture2D" uid="uid://blttbj4jmqhsq" path="res://user/skins/default/ui/play/mapinfo_cover_background.png" id="3_ne4r3"]
+[ext_resource type="Texture2D" uid="uid://blttbj4jmqhsq" path="res://user/skins/nebula/ui/play/mapinfo_cover_background.png" id="3_ne4r3"]
 [ext_resource type="Theme" uid="uid://dhuhu3mmaew1a" path="res://themes/theme.tres" id="4_4d08m"]
 [ext_resource type="Script" uid="uid://c1235cyjfh4rl" path="res://scripts/ui/LinkPopupButton.cs" id="4_dccrs"]
-[ext_resource type="Texture2D" uid="uid://7px5v8ikildx" path="res://user/skins/default/ui/buttons/favorite.png" id="5_1m5pv"]
+[ext_resource type="Texture2D" uid="uid://7px5v8ikildx" path="res://user/skins/nebula/ui/buttons/favorite.png" id="5_1m5pv"]
 [ext_resource type="Script" uid="uid://dy45uerqy0yd7" path="res://scripts/ui/FlatPreview.cs" id="5_svokg"]
 [ext_resource type="Script" uid="uid://dfj260vsm4j" path="res://scripts/ui/menu/play/CameraModeButton.cs" id="6_8cypg"]
-[ext_resource type="Texture2D" uid="uid://degvlg4p0if70" path="res://user/skins/default/ui/buttons/add_video.png" id="6_g02bu"]
+[ext_resource type="Texture2D" uid="uid://degvlg4p0if70" path="res://user/skins/nebula/ui/buttons/add_video.png" id="6_g02bu"]
 [ext_resource type="PackedScene" uid="uid://dndbtgq2yrwen" path="res://prefabs/modifier_button.tscn" id="7_dccrs"]
-[ext_resource type="Texture2D" uid="uid://cgxbwx4f28lt2" path="res://user/skins/default/ui/buttons/copy.png" id="7_oibm8"]
+[ext_resource type="Texture2D" uid="uid://cgxbwx4f28lt2" path="res://user/skins/nebula/ui/buttons/copy.png" id="7_oibm8"]
 [ext_resource type="PackedScene" uid="uid://kwoco4d2gdqc" path="res://prefabs/speed_preset_button.tscn" id="8_i21mh"]
-[ext_resource type="Texture2D" uid="uid://xd005fiv7qgg" path="res://user/skins/default/ui/buttons/delete.png" id="8_ssthb"]
-[ext_resource type="Texture2D" uid="uid://6ptjvvnn8jhm" path="res://user/skins/default/modifiers/nofail.png" id="8_wk5qh"]
-[ext_resource type="Texture2D" uid="uid://b48yn1sht6uo0" path="res://user/skins/default/modifiers/ghost.png" id="9_abwk8"]
-[ext_resource type="Texture2D" uid="uid://40acunj8wr8e" path="res://user/skins/default/ui/buttons/speed_minus_minus.png" id="11_1jb84"]
-[ext_resource type="Texture2D" uid="uid://dte55kqyqtf12" path="res://user/skins/default/ui/buttons/speed_minus.png" id="12_cqtnb"]
-[ext_resource type="Texture2D" uid="uid://r6nsvqtknp20" path="res://user/skins/default/ui/buttons/speed_plus.png" id="13_3adhn"]
-[ext_resource type="Texture2D" uid="uid://csk7favaty7k2" path="res://user/skins/default/ui/buttons/speed_plus_plus.png" id="14_hri10"]
-[ext_resource type="Texture2D" uid="uid://ddhu70ryjua54" path="res://user/skins/default/ui/buttons/speed_middle.png" id="18_1m5pv"]
-[ext_resource type="Texture2D" uid="uid://4o5eelsayk4d" path="res://user/skins/default/ui/buttons/play.png" id="20_ir45w"]
+[ext_resource type="Texture2D" uid="uid://xd005fiv7qgg" path="res://user/skins/nebula/ui/buttons/delete.png" id="8_ssthb"]
+[ext_resource type="Texture2D" uid="uid://6ptjvvnn8jhm" path="res://user/skins/nebula/modifiers/nofail.png" id="8_wk5qh"]
+[ext_resource type="Texture2D" uid="uid://b48yn1sht6uo0" path="res://user/skins/nebula/modifiers/ghost.png" id="9_abwk8"]
+[ext_resource type="Texture2D" uid="uid://40acunj8wr8e" path="res://user/skins/nebula/ui/buttons/speed_minus_minus.png" id="11_1jb84"]
+[ext_resource type="Texture2D" uid="uid://dte55kqyqtf12" path="res://user/skins/nebula/ui/buttons/speed_minus.png" id="12_cqtnb"]
+[ext_resource type="Texture2D" uid="uid://r6nsvqtknp20" path="res://user/skins/nebula/ui/buttons/speed_plus.png" id="13_3adhn"]
+[ext_resource type="Texture2D" uid="uid://csk7favaty7k2" path="res://user/skins/nebula/ui/buttons/speed_plus_plus.png" id="14_hri10"]
+[ext_resource type="Texture2D" uid="uid://ddhu70ryjua54" path="res://user/skins/nebula/ui/buttons/speed_middle.png" id="18_1m5pv"]
+[ext_resource type="Texture2D" uid="uid://4o5eelsayk4d" path="res://user/skins/nebula/ui/buttons/play.png" id="20_ir45w"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_svokg"]
 
@@ -82,72 +82,6 @@ content_margin_bottom = 2.0
 font_color = Color(1, 1, 1, 0.2509804)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8cypg"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dccrs"]
-content_margin_top = 6.0
-content_margin_bottom = 6.0
-bg_color = Color(0, 0, 0, 1)
-border_width_bottom = 2
-border_color = Color(0.7882353, 0, 0.27058825, 1)
-border_blend = true
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-expand_margin_left = 16.0
-expand_margin_right = 16.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i21mh"]
-content_margin_top = 6.0
-content_margin_bottom = 6.0
-bg_color = Color(0.1254902, 0.1254902, 0.1254902, 1)
-border_width_bottom = 2
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-expand_margin_left = 16.0
-expand_margin_right = 16.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6xsea"]
-content_margin_top = 6.0
-content_margin_bottom = 6.0
-bg_color = Color(0.09411765, 0.09411765, 0.09411765, 1)
-border_width_bottom = 2
-border_color = Color(0.7882353, 0, 0.27058825, 1)
-border_blend = true
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-expand_margin_left = 16.0
-expand_margin_right = 16.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8wv8f"]
-content_margin_top = 6.0
-content_margin_bottom = 6.0
-bg_color = Color(0.09411765, 0.09411765, 0.09411765, 1)
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-expand_margin_left = 16.0
-expand_margin_right = 16.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wk5qh"]
-content_margin_top = 6.0
-content_margin_bottom = 6.0
-bg_color = Color(0, 0, 0, 0.23529412)
-border_color = Color(1, 1, 1, 1)
-border_blend = true
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-expand_margin_left = 16.0
-expand_margin_right = 16.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4d08m"]
 
@@ -645,10 +579,13 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 0.75
+offset_left = -17.0
 offset_top = 32.0
+offset_right = 20.420502
 offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(0.97, 0.97)
 theme = ExtResource("4_4d08m")
 theme_override_styles/panel = SubResource("StyleBoxEmpty_6xsea")
 
@@ -658,11 +595,20 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
-[node name="MinusMinus" type="AspectRatioContainer" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets" unique_id=11810616]
+[node name="MinusMinusMinus" type="AspectRatioContainer" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets" unique_id=11810616]
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="SpeedPresetButton" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets/MinusMinus" unique_id=477930068 instance=ExtResource("8_i21mh")]
+[node name="SpeedPresetButton" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets/MinusMinusMinus" unique_id=477930068 instance=ExtResource("8_i21mh")]
+layout_mode = 2
+icon = ExtResource("11_1jb84")
+Speed = 74.0
+
+[node name="MinusMinus" type="AspectRatioContainer" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets" unique_id=217385297]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="SpeedPresetButton" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets/MinusMinus" unique_id=970055812 instance=ExtResource("8_i21mh")]
 layout_mode = 2
 icon = ExtResource("11_1jb84")
 Speed = 80.0
@@ -674,7 +620,7 @@ size_flags_horizontal = 0
 [node name="SpeedPresetButton" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets/Minus" unique_id=2083527822 instance=ExtResource("8_i21mh")]
 layout_mode = 2
 icon = ExtResource("12_cqtnb")
-Speed = 90.0
+Speed = 87.0
 
 [node name="Middle" type="AspectRatioContainer" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets" unique_id=2041276269]
 layout_mode = 2
@@ -692,7 +638,7 @@ size_flags_horizontal = 0
 [node name="SpeedPresetButton" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets/Plus" unique_id=1865271496 instance=ExtResource("8_i21mh")]
 layout_mode = 2
 icon = ExtResource("13_3adhn")
-Speed = 110.0
+Speed = 115.0
 
 [node name="PlusPlus" type="AspectRatioContainer" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets" unique_id=923821419]
 layout_mode = 2
@@ -701,7 +647,25 @@ size_flags_horizontal = 0
 [node name="SpeedPresetButton" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets/PlusPlus" unique_id=561152070 instance=ExtResource("8_i21mh")]
 layout_mode = 2
 icon = ExtResource("14_hri10")
-Speed = 120.0
+Speed = 125.0
+
+[node name="PlusPlusPlus" type="AspectRatioContainer" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets" unique_id=947051237]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="SpeedPresetButton" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets/PlusPlusPlus" unique_id=1012469859 instance=ExtResource("8_i21mh")]
+layout_mode = 2
+icon = ExtResource("14_hri10")
+Speed = 135.0
+
+[node name="PlusPlusPlusPlus" type="AspectRatioContainer" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets" unique_id=593908913]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="SpeedPresetButton" parent="Actions/ScrollContainer/Holder/Speed/ScrollContainer/Presets/PlusPlusPlusPlus" unique_id=723832601 instance=ExtResource("8_i21mh")]
+layout_mode = 2
+icon = ExtResource("14_hri10")
+Speed = 145.0
 
 [node name="LineEdit" type="LineEdit" parent="Actions/ScrollContainer/Holder/Speed" unique_id=1046150966]
 layout_mode = 1
@@ -823,14 +787,8 @@ grow_vertical = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme = ExtResource("4_4d08m")
-theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/icon_max_width = 32
 theme_override_font_sizes/font_size = 30
-theme_override_styles/normal = SubResource("StyleBoxFlat_dccrs")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_i21mh")
-theme_override_styles/hover = SubResource("StyleBoxFlat_6xsea")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_8wv8f")
-theme_override_styles/disabled = SubResource("StyleBoxFlat_wk5qh")
 text = "START"
 icon = ExtResource("20_ir45w")
 icon_alignment = 2

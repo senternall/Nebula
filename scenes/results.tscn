@@ -4,13 +4,13 @@
 [ext_resource type="Theme" uid="uid://dhuhu3mmaew1a" path="res://themes/theme.tres" id="2_dgnpu"]
 [ext_resource type="FontFile" uid="uid://4bnnn01f4dqr" path="res://fonts/Ubuntu-Medium.ttf" id="2_f4qdi"]
 [ext_resource type="Shader" uid="uid://bp2sv5ynsubi2" path="res://scripts/shaders/alpha_gradient.gdshader" id="2_oatel"]
-[ext_resource type="Texture2D" uid="uid://3e1tjlr4m0wt" path="res://user/skins/default/game/cursor.png" id="2_ow183"]
+[ext_resource type="Texture2D" uid="uid://3e1tjlr4m0wt" path="res://user/skins/nebula/game/cursor.png" id="2_ow183"]
 [ext_resource type="FontFile" uid="uid://bopde8iqsld1o" path="res://fonts/Ubuntu-Regular.ttf" id="3_rsbg1"]
 [ext_resource type="Script" uid="uid://ci36kf1g7wv5j" path="res://scripts/ui/results/Graph.cs" id="4_b55ol"]
 [ext_resource type="FontFile" uid="uid://dvb6fvy008bhv" path="res://fonts/Roboto-Medium.ttf" id="4_yxv8s"]
 [ext_resource type="Shader" uid="uid://cqqs8uux7hqyb" path="res://scripts/shaders/ui_blur.gdshader" id="5_eo0oh"]
 [ext_resource type="Shader" uid="uid://5sq1jdmlom6w" path="res://scripts/shaders/dotted.gdshader" id="8_ldb53"]
-[ext_resource type="Texture2D" uid="uid://baivqqkfll133" path="res://textures/RhythiaSquircle.png" id="10_00qb5"]
+[ext_resource type="Texture2D" uid="uid://c4jjh4p67xlav" path="res://textures/RhythiaSquircle.png" id="10_00qb5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6rn6l"]
 shader = ExtResource("2_oatel")
@@ -56,7 +56,6 @@ font_size = 64
 [sub_resource type="LabelSettings" id="LabelSettings_18ny7"]
 font = ExtResource("2_f4qdi")
 font_size = 64
-font_color = Color(0.627451, 0.627451, 0.627451, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_7f2j3"]
 font = ExtResource("2_f4qdi")
@@ -65,6 +64,7 @@ font_size = 42
 [sub_resource type="LabelSettings" id="LabelSettings_yaaow"]
 font = ExtResource("2_f4qdi")
 font_size = 42
+font_color = Color(0.6378432, 0.6378432, 0.63784313, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_6anxq"]
 font = ExtResource("3_rsbg1")
@@ -186,7 +186,7 @@ offset_left = 32.0
 offset_top = 248.0
 offset_right = -32.0
 offset_bottom = 296.0
-text = "1.00x"
+text = "1.00"
 label_settings = SubResource("LabelSettings_utq7d")
 vertical_alignment = 1
 text_overrun_behavior = 3
@@ -220,15 +220,6 @@ custom_minimum_size = Vector2(44, 0)
 layout_mode = 2
 texture = ExtResource("2_ow183")
 expand_mode = 1
-
-[node name="Separator" type="ColorRect" parent="Holder" unique_id=1656607203]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-offset_left = 32.0
-offset_top = 300.0
-offset_right = -32.0
-offset_bottom = 302.0
 
 [node name="Accuracy" type="Label" parent="Holder" unique_id=678663131]
 layout_mode = 1
@@ -356,7 +347,8 @@ anchors_preset = -1
 anchor_bottom = 1.0
 offset_left = 6.0
 offset_top = 6.0
-offset_bottom = -6.0
+offset_right = 81.0
+offset_bottom = 20.0
 texture = ExtResource("10_00qb5")
 expand_mode = 2
 stretch_mode = 5

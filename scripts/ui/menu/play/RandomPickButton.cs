@@ -5,20 +5,20 @@ public partial class RandomPickButton : Button
 {
 	private Random random = new();
 
-    public override void _Pressed() { Pick(); }
+	public override void _Pressed() { Pick(); }
 
-    public override void _Input(InputEvent @event)
-    {
-        if (@event is InputEventKey key && key.Pressed && key.CtrlPressed)
+	public override void _Input(InputEvent @event)
+	{
+		if (@event is InputEventKey key && key.Pressed && key.CtrlPressed)
 		{
 			switch (key.Keycode)
 			{
 				case Key.F4:
-                    Pick();
-                    break;
-            }
+					Pick();
+					break;
+			}
 		}
-    }
+	}
 
 	public void Pick()
 	{

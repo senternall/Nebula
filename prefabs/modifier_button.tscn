@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dndbtgq2yrwen"]
 
 [ext_resource type="Theme" uid="uid://dhuhu3mmaew1a" path="res://themes/theme.tres" id="1_bp66n"]
-[ext_resource type="Texture2D" uid="uid://baivqqkfll133" path="res://textures/RhythiaSquircle.png" id="2_dhidr"]
+[ext_resource type="Texture2D" uid="uid://baivqqkfll133" path="res://textures/-RhythiaSquircle.png" id="2_dhidr"]
 [ext_resource type="Script" uid="uid://c8xhwjmasp86y" path="res://scripts/ui/menu/play/ModifierButton.cs" id="3_b55dm"]
 
 [node name="ModifierButton" type="Button" unique_id=1417833013]

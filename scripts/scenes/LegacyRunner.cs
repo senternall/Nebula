@@ -38,7 +38,9 @@ public partial class LegacyRunner : BaseScene
 	private static Label replayViewerLabel;
 	private static HSlider replayViewerSeek;
 	private static Label accuracyLabel;
+	private static Label PausesLabel;
 	private static Label hitsLabel;
+	private static Label LetterGradeLabel;
 	private static Label missesLabel;
 	private static Label sumLabel;
 	private static Label simpleMissesLabel;
@@ -134,7 +136,7 @@ public partial class LegacyRunner : BaseScene
 			StartFrom = startFrom;
 			Players = players ?? [];
 			Progress = Speed * -1000 - settings.ApproachTime.Value * 1000 + StartFrom;
-            ComboMultiplierIncrement = Math.Max(2, (uint)Map.Notes.Length / 200);
+			ComboMultiplierIncrement = Math.Max(2, (uint)Map.Notes.Length / 200);
 			Mods = [];
 			HitsInfo = IsReplay ? Replays[0].Notes : new float[Map.Notes.Length];
 
@@ -158,7 +160,7 @@ public partial class LegacyRunner : BaseScene
 
 			if (!IsReplay && settings.RecordReplays && !Map.Ephemeral)
 			{
-                ReplayFile = Godot.FileAccess.Open($"{Constants.USER_FOLDER}/replays/{ID}.phxr", Godot.FileAccess.ModeFlags.Write);
+				ReplayFile = Godot.FileAccess.Open($"{Constants.USER_FOLDER}/replays/{ID}.phxr", Godot.FileAccess.ModeFlags.Write);
 				ReplayFile.StoreString("phxr");	// sig
 				ReplayFile.Store8(1);	// replay file version
 
@@ -220,8 +222,8 @@ public partial class LegacyRunner : BaseScene
 			{
 				if (entry.Value)
 				{
-                    bool hasMultiplier = Constants.MODS_MULTIPLIER_INCREMENT.TryGetValue(entry.Key, out double multiplier);
-                    ModsMultiplier += hasMultiplier ? multiplier : 0;
+					bool hasMultiplier = Constants.MODS_MULTIPLIER_INCREMENT.TryGetValue(entry.Key, out double multiplier);
+					ModsMultiplier += hasMultiplier ? multiplier : 0;
 				}
 			}
 		}
@@ -231,6 +233,21 @@ public partial class LegacyRunner : BaseScene
 			Hits++;
 			Sum++;
 			Accuracy = Math.Floor((float)Hits / Sum * 10000) / 100;
+			string rank1 =
+				Accuracy == 100f ? "X" :
+				Accuracy > 97.99f ? "S" :
+				Accuracy > 94.99f ? "A" :
+				Accuracy > 89.99f ? "B" :
+				Accuracy > 84.99f ? "C" :
+				Accuracy > 79.99f ? "D" : "F";
+			Color rankColour = 
+				Accuracy == 100f ? Color.Color8(255, 215, 0) :
+					Accuracy > 97.99f ? Color.Color8(255, 165, 0) :
+					Accuracy > 94.99f ? Color.Color8(76, 175, 80) :
+					Accuracy > 89.99f ? Color.Color8(33, 150, 243) :
+					Accuracy > 84.99f ? Color.Color8(156, 39, 176) :
+					Accuracy > 79.99f ? Color.Color8(158, 158, 158) : Color.Color8(244, 67, 54);
+
 			Combo++;
 			ComboMultiplierProgress++;
 
@@ -279,6 +296,8 @@ public partial class LegacyRunner : BaseScene
 			sumLabel.Text = Util.String.PadMagnitude(Sum.ToString());
 			accuracyLabel.Text = $"{(Hits + Misses == 0 ? "100.00" : Accuracy.ToString().PadDecimals(2))}%";
 			comboLabel.Text = Combo.ToString();
+			LetterGradeLabel.Text = rank1;
+			LetterGradeLabel.LabelSettings.FontColor = rankColour;
 
 			if (!settings.AlwaysPlayHitSound.Value)
 			{
@@ -287,7 +306,7 @@ public partial class LegacyRunner : BaseScene
 
 			hitTween?.Kill();
 			hitTween = hitsLabel.CreateTween();
-			hitTween.TweenProperty(hitsLabel.LabelSettings, "font_color", Color.Color8(255, 255, 255, 160), 1);
+			hitTween.TweenProperty(hitsLabel.LabelSettings, "font_color", Color.Color8(255, 255, 255, 255), 1);
 			hitTween.Play();
 
 			if (!settings.HitPopups || hitPopups >= 64)
@@ -317,6 +336,20 @@ public partial class LegacyRunner : BaseScene
 			Misses++;
 			Sum++;
 			Accuracy = Mathf.Floor((float)Hits / Sum * 10000) / 100;
+			string rank1 =
+				Accuracy == 100f ? "X" :
+				Accuracy > 97.99f ? "S" :
+				Accuracy > 94.99f ? "A" :
+				Accuracy > 89.99f ? "B" :
+				Accuracy > 84.99f ? "C" :
+				Accuracy > 79.99f ? "D" : "F";
+			Color rankColour = 
+				Accuracy == 100f ? Color.Color8(255, 215, 0) :
+					Accuracy > 97.99f ? Color.Color8(255, 165, 0) :
+					Accuracy > 94.99f ? Color.Color8(76, 175, 80) :
+					Accuracy > 89.99f ? Color.Color8(33, 150, 243) :
+					Accuracy > 84.99f ? Color.Color8(156, 39, 176) :
+					Accuracy > 79.99f ? Color.Color8(158, 158, 158) : Color.Color8(244, 67, 54);
 			Combo = 0;
 			ComboMultiplierProgress = 0;
 			ComboMultiplier = Math.Max(1, ComboMultiplier - 1);
@@ -366,10 +399,12 @@ public partial class LegacyRunner : BaseScene
 			sumLabel.Text = Util.String.PadMagnitude(Sum.ToString());
 			accuracyLabel.Text = $"{(Hits + Misses == 0 ? "100.00" : Accuracy.ToString().PadDecimals(2))}%";
 			comboLabel.Text = Combo.ToString();
+			LetterGradeLabel.Text = rank1;
+			LetterGradeLabel.LabelSettings.FontColor = rankColour;
 
 			missTween?.Kill();
 			missTween = missesLabel.CreateTween();
-			missTween.TweenProperty(missesLabel.LabelSettings, "font_color", Color.Color8(255, 255, 255, 160), 1);
+			missTween.TweenProperty(missesLabel.LabelSettings, "font_color", Color.Color8(255, 255, 255, 255), 1);
 			missTween.Play();
 
 			if (!settings.MissPopups || missPopups >= 64)
@@ -454,20 +489,20 @@ public partial class LegacyRunner : BaseScene
 
 	public override void _Ready()
 	{
-        base._Ready();
+		base._Ready();
 
-        settings = SettingsManager.Instance.Settings;
+		settings = SettingsManager.Instance.Settings;
 
 		node = this;
 
-        menu = GetNode<Panel>("Menu");
-        //fpsCounter = GetNode<Label>("FPSCounter");
+		menu = GetNode<Panel>("Menu");
+		//fpsCounter = GetNode<Label>("FPSCounter");
 
-        // SubViewport holder = GetNode("SubViewportContainer").GetNode<SubViewport>("SubViewport");
-        Node holder = this;
+		// SubViewport holder = GetNode("SubViewportContainer").GetNode<SubViewport>("SubViewport");
+		Node holder = this;
 
-        Camera = holder.GetNode<Camera3D>("Camera3D");
-        titleLabel = holder.GetNode<Label3D>("Title");
+		Camera = holder.GetNode<Camera3D>("Camera3D");
+		titleLabel = holder.GetNode<Label3D>("Title");
 		comboLabel = holder.GetNode<Label3D>("Combo");
 		speedLabel = holder.GetNode<Label3D>("Speed");
 		skipLabel = holder.GetNode<Label3D>("Skip");
@@ -488,18 +523,20 @@ public partial class LegacyRunner : BaseScene
 		replayViewerPause = replayViewer.GetNode<TextureButton>("Pause");
 		replayViewerLabel = replayViewer.GetNode<Label>("Time");
 		replayViewerSeek = replayViewer.GetNode<HSlider>("Seek");
-		accuracyLabel = panelRight.GetNode<Label>("Accuracy");
+		accuracyLabel = panelLeft.GetNode<Label>("Accuracy");
 		hitsLabel = panelRight.GetNode<Label>("Hits");
 		missesLabel = panelRight.GetNode<Label>("Misses");
 		sumLabel = panelRight.GetNode<Label>("Sum");
 		simpleMissesLabel = panelRight.GetNode<Label>("SimpleMisses");
-		scoreLabel = panelLeft.GetNode<Label>("Score");
+		scoreLabel = panelRight.GetNode<Label>("Score");
+		LetterGradeLabel = panelLeft.GetNode<Label>("LetterGrade");
+		PausesLabel = panelLeft.GetNode<Label>("Pauses");
 		multiplierLabel = panelLeft.GetNode<Label>("Multiplier");
 		multiplierProgressPanel = panelLeft.GetNode<Panel>("MultiplierProgress");
 		multiplierProgressMaterial = multiplierProgressPanel.Material as ShaderMaterial;
-        video = videoQuad.GetNode("VideoViewport").GetNode<VideoStreamPlayer>("VideoStreamPlayer");
+		video = videoQuad.GetNode("VideoViewport").GetNode<VideoStreamPlayer>("VideoStreamPlayer");
 
-        List<string> activeMods = [];
+		List<string> activeMods = [];
 
 		foreach (KeyValuePair<string, bool> mod in CurrentAttempt.Mods)
 		{
@@ -511,10 +548,10 @@ public partial class LegacyRunner : BaseScene
 
 		for (int i = 0; i < activeMods.Count; i++)
 		{
-            if (activeMods[i] == "Spin")
-            {
-                continue;
-            }
+			if (activeMods[i] == "Spin")
+			{
+				continue;
+			}
 
 			Sprite3D icon = modifier_icon.Instantiate<Sprite3D>();
 
@@ -572,6 +609,7 @@ public partial class LegacyRunner : BaseScene
 			CurrentAttempt.HealthStep = 15;
 
 			hitsLabel.Text = "0";
+			PausesLabel.Text = "0";
 			missesLabel.Text = "0";
 			simpleMissesLabel.Text = "0";
 			sumLabel.Text = "0";
@@ -637,9 +675,9 @@ public partial class LegacyRunner : BaseScene
 		Camera.Fov = fov;
 		videoQuad.Transparency = 1;
 		titleLabel.Text = CurrentAttempt.Map.PrettyTitle;
-		hitsLabel.LabelSettings.FontColor = Color.Color8(255, 255, 255, 160);
-		missesLabel.LabelSettings.FontColor = Color.Color8(255, 255, 255, 160);
-		speedLabel.Text = $"{CurrentAttempt.Speed.ToString().PadDecimals(2)}x";
+		hitsLabel.LabelSettings.FontColor = Color.Color8(255, 255, 255, 255);
+		missesLabel.LabelSettings.FontColor = Color.Color8(255, 255, 255, 255);
+		speedLabel.Text = $"{CurrentAttempt.Speed.ToString().PadDecimals(2)}";
 		speedLabel.Modulate = Color.Color8(255, 255, 255, (byte)(CurrentAttempt.Speed == 1 ? 0 : 100));
 
 		float videoHeight = 2 * (float)Math.Sqrt(Math.Pow(103.75 / Math.Cos(Mathf.DegToRad(fov / 2)), 2) - Math.Pow(103.75, 2));
@@ -652,9 +690,9 @@ public partial class LegacyRunner : BaseScene
 
 		multiplierProgressMaterial.SetShaderParameter("progress", 0);
 		multiplierProgressMaterial.SetShaderParameter("colour", multiplierColour);
-		multiplierProgressMaterial.SetShaderParameter("sides", Math.Clamp(CurrentAttempt.ComboMultiplierIncrement, 3, 32));
+		multiplierProgressMaterial.SetShaderParameter("sides", 30);
 
-		Discord.Client.UpdateDetails("Playing a Map");
+		Discord.Client.UpdateDetails("Pwaying a map >w<");
 		Discord.Client.UpdateState(CurrentAttempt.Map.PrettyTitle);
 		// Discord.Client.UpdateEndTime(DateTime.UtcNow.AddSeconds((Time.GetUnixTimeFromSystem() + CurrentAttempt.Map.Length / 1000 / CurrentAttempt.Speed)));
 
@@ -704,7 +742,7 @@ public partial class LegacyRunner : BaseScene
 
 		MapLength += Constants.HIT_WINDOW;
 
-        // TODO: Fix videos
+		// TODO: Fix videos
 
 		//if (settings.VideoDim < 100 && CurrentAttempt.Map.VideoBuffer != null)
 		//{
@@ -1023,7 +1061,7 @@ public partial class LegacyRunner : BaseScene
 			return;
 		}
 
-        cursor.RotationDegrees += Vector3.Back * settings.CursorRotation * (float)delta;
+		cursor.RotationDegrees += Vector3.Back * settings.CursorRotation * (float)delta;
 
 		// trail stuff
 		if (settings.CursorTrail)
@@ -1033,7 +1071,7 @@ public partial class LegacyRunner : BaseScene
 			lastCursorPositions.Add(new(){
 				["Time"] = now,
 				["Position"] = CurrentAttempt.CursorPosition,
-                ["Rotation"] = cursor.Rotation.Z
+				["Rotation"] = cursor.Rotation.Z
 			});
 
 			foreach (Dictionary<string, object> entry in lastCursorPositions)
@@ -1064,7 +1102,7 @@ public partial class LegacyRunner : BaseScene
 				uint alpha = (uint)(difference / (settings.TrailTime * 1000000) * 255);
 
 				transform.Origin = new Vector3(((Vector2)entry["Position"]).X, ((Vector2)entry["Position"]).Y, 0);
-                transform = transform.RotatedLocal(Vector3.Back, (float)entry["Rotation"]);
+				transform = transform.RotatedLocal(Vector3.Back, (float)entry["Rotation"]);
 
 				cursorTrailMultimesh.Multimesh.SetInstanceTransform(j, transform);
 				cursorTrailMultimesh.Multimesh.SetInstanceColor(j, Color.FromHtml($"ffffff{255 - alpha:X2}"));
@@ -1161,29 +1199,29 @@ public partial class LegacyRunner : BaseScene
 
 	public override void Load()
 	{
-        base.Load();
+		base.Load();
 
 		DisplayServer.WindowSetVsyncMode(DisplayServer.VSyncMode.Disabled);
 
 		MenuCursor.Instance.UpdateVisible(false, false);
-        SceneManager.Space.UpdateState(true);
-        SceneManager.Space.UpdateMap(CurrentAttempt.Map);
-    }
+		SceneManager.Space.UpdateState(true);
+		SceneManager.Space.UpdateMap(CurrentAttempt.Map);
+	}
 
 	public static void Play(Map map, double speed = 1, double startFrom = 0, Dictionary<string, bool> mods = null, string[] players = null, Replay[] replays = null)
 	{
-        map = MapParser.Decode(map.FilePath);
+		map = MapParser.Decode(map.FilePath);
 
-        Control focused = SceneManager.Root.GetViewport().GuiGetFocusOwner();
+		Control focused = SceneManager.Root.GetViewport().GuiGetFocusOwner();
 
-        focused?.ReleaseFocus();
+		focused?.ReleaseFocus();
 
 		if (Playing)
 		{
 			Stop();
 		}
 
-        CurrentAttempt = new(map, speed, startFrom, mods ?? [], players, replays);
+		CurrentAttempt = new(map, speed, startFrom, mods ?? [], players, replays);
 		Playing = true;
 		stopQueued = false;
 		Started = Time.GetTicksUsec();
@@ -1228,7 +1266,7 @@ public partial class LegacyRunner : BaseScene
 			}
 			else
 			{
-				CurrentAttempt.Progress = CurrentAttempt.Map.Notes[CurrentAttempt.PassedNotes].Millisecond - settings.ApproachTime * 1500 * CurrentAttempt.Speed; // turn AT to ms and multiply by 1.5x
+				CurrentAttempt.Progress = (CurrentAttempt.Map.Notes[CurrentAttempt.PassedNotes].Millisecond - settings.ApproachTime * 1500 * CurrentAttempt.Speed); // turn AT to ms and multiply by 1.5x
 
 				// Discord.Client.UpdateEndTime(DateTime.UtcNow.AddSeconds((Time.GetUnixTimeFromSystem() + (CurrentAttempt.Map.Length - CurrentAttempt.Progress) / 1000 / CurrentAttempt.Speed)));
 
@@ -1305,7 +1343,7 @@ public partial class LegacyRunner : BaseScene
 			}
 		}
 
-        DisplayServer.WindowSetVsyncMode(DisplayServer.VSyncMode.Adaptive);
+		DisplayServer.WindowSetVsyncMode(DisplayServer.VSyncMode.Adaptive);
 
 		if (results)
 		{
@@ -1413,7 +1451,7 @@ public partial class LegacyRunner : BaseScene
 			videoQuad.Position = Camera.Position - Camera.Basis.Z * 103.75f;
 			videoQuad.Rotation = Camera.Rotation;
 		}
-    }
+	}
 
 	public static void UpdateScore(string player, int score)
 	{

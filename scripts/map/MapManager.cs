@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,116 +10,116 @@ using Godot;
 
 public partial class MapManager : Node
 {
-    public static Bindable<Map> Selected { get; set; } = new(null);
+	public static Bindable<Map> Selected { get; set; } = new(null);
 
-    public static List<Map> Maps { get; set; } = new();
+	public static List<Map> Maps { get; set; } = new();
 
-    public static event Action<Map> MapDeleted;
+	public static event Action<Map> MapDeleted;
 
-    public static event Action<Map> MapUpdated;
+	public static event Action<Map> MapUpdated;
 
-    public static bool Initialized = false;
+	public static bool Initialized = false;
 
-    public static event Action<List<Map>> MapsInitialized;
+	public static event Action<List<Map>> MapsInitialized;
 
-    public override void _Ready()
-    {
-        MapCache.Initialize();
-        Task.Run(() =>
-        {
-            MapCache.Load(true);
+	public override void _Ready()
+	{
+		MapCache.Initialize();
+		Task.Run(() =>
+		{
+			MapCache.Load(true);
 
-            if (!Initialized)
-            {
-                Initialized = true;
-                MapsInitialized?.Invoke(Maps);
-            }
-        });
-    }
+			if (!Initialized)
+			{
+				Initialized = true;
+				MapsInitialized?.Invoke(Maps);
+			}
+		});
+	}
 
-    public static void Select(Map map)
-    {
-        Selected.Value = GetMapById(map.Id);
-    }
+	public static void Select(Map map)
+	{
+		Selected.Value = GetMapById(map.Id);
+	}
 
-    public static Map GetMapById(int id)
-    {
-        return Maps.Where(x => x.Id == id).First();
-    }
+	public static Map GetMapById(int id)
+	{
+		return Maps.Where(x => x.Id == id).First();
+	}
 
-    public static void Update(Map map)
-    {
-        MapCache.UpdateMap(map);
-        MapUpdated?.Invoke(map);
-    }
+	public static void Update(Map map)
+	{
+		MapCache.UpdateMap(map);
+		MapUpdated?.Invoke(map);
+	}
 
-    public static void InsertVideo(Map map, string path)
-    {
-        Godot.FileAccess file = Godot.FileAccess.Open(path, Godot.FileAccess.ModeFlags.Read);
-        byte[] videoBuffer = file.GetBuffer((long)file.GetLength());
-        file.Close();
+	public static void InsertVideo(Map map, string path)
+	{
+		Godot.FileAccess file = Godot.FileAccess.Open(path, Godot.FileAccess.ModeFlags.Read);
+		byte[] videoBuffer = file.GetBuffer((long)file.GetLength());
+		file.Close();
 
-        map.VideoBuffer = videoBuffer;
+		map.VideoBuffer = videoBuffer;
 
-        var oldmap = MapParser.Decode(map.FilePath);
+		var oldmap = MapParser.Decode(map.FilePath);
 
-        map.Mappers = map.CachedMappers.Split("_");
-        map.AudioBuffer = oldmap.AudioBuffer;
-        map.CoverBuffer = oldmap.CoverBuffer;
+		map.Mappers = map.CachedMappers.Split("_");
+		map.AudioBuffer = oldmap.AudioBuffer;
+		map.CoverBuffer = oldmap.CoverBuffer;
 
-        File.Delete(map.FilePath);
+		File.Delete(map.FilePath);
 
-        MapParser.Encode(map);
-        map.Hash = MapCache.GetMd5Checksum(map.FilePath);
-        Update(map);
-    }
+		MapParser.Encode(map);
+		map.Hash = MapCache.GetMd5Checksum(map.FilePath);
+		Update(map);
+	}
 
-    public static void RemoveVideo(Map map)
-    {
-        Godot.FileAccess file = Godot.FileAccess.Open(map.FilePath, Godot.FileAccess.ModeFlags.Read);
+	public static void RemoveVideo(Map map)
+	{
+		Godot.FileAccess file = Godot.FileAccess.Open(map.FilePath, Godot.FileAccess.ModeFlags.Read);
 
-        map.VideoBuffer = null;
+		map.VideoBuffer = null;
 
-        var oldmap = MapParser.Decode(map.FilePath);
-        map.Mappers = map.PrettyMappers.Split(" ");
-        map.AudioBuffer = oldmap.AudioBuffer;
-        map.CoverBuffer = oldmap.CoverBuffer;
+		var oldmap = MapParser.Decode(map.FilePath);
+		map.Mappers = map.PrettyMappers.Split(" ");
+		map.AudioBuffer = oldmap.AudioBuffer;
+		map.CoverBuffer = oldmap.CoverBuffer;
 
-        File.Delete(map.FilePath);
+		File.Delete(map.FilePath);
 
-        MapParser.Encode(map);
-        map.Hash = MapCache.GetMd5Checksum(map.FilePath);
-        Update(map);
-    }
+		MapParser.Encode(map);
+		map.Hash = MapCache.GetMd5Checksum(map.FilePath);
+		Update(map);
+	}
 
-    public static void Delete(Map map)
-    {
-        try
-        {
+	public static void Delete(Map map)
+	{
+		try
+		{
 
-            try
-            {
-                File.Delete(map.FilePath);
-            }
-            catch
-            {
-                if (File.Exists(map.FilePath))
-                {
+			try
+			{
+				File.Delete(map.FilePath);
+			}
+			catch
+			{
+				if (File.Exists(map.FilePath))
+				{
 
-                    Logger.Error("Unable to delete map");
-                }
-            }
+					Logger.Error("Unable to delete map");
+				}
+			}
 
-            MapCache.RemoveMap(map);
-            Maps.Remove(map);
+			MapCache.RemoveMap(map);
+			Maps.Remove(map);
 
-            MapDeleted?.Invoke(map);
-        }
-        catch (Exception e)
-        {
-            Logger.Error(e.Message);
-        }
-    }
+			MapDeleted?.Invoke(map);
+		}
+		catch (Exception e)
+		{
+			Logger.Error(e.Message);
+		}
+	}
 
-    public static string MapsFolder => $"{Constants.USER_FOLDER}/maps";
+	public static string MapsFolder => $"{Constants.USER_FOLDER}/maps";
 }

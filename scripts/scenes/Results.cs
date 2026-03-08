@@ -25,9 +25,9 @@ public partial class Results : BaseScene
 		cover = GetNode<TextureRect>("Cover");
 
 		Input.MouseMode = settings.UseCursorInMenus ? Input.MouseModeEnum.Hidden : Input.MouseModeEnum.Visible;
-        MenuCursor.Instance.Visible = settings.UseCursorInMenus;
+		MenuCursor.Instance.Visible = settings.UseCursorInMenus;
 
-        holder.GetNode<Label>("Title").Text = (LegacyRunner.CurrentAttempt.IsReplay ? "[REPLAY] " : "") + LegacyRunner.CurrentAttempt.Map.PrettyTitle;
+		holder.GetNode<Label>("Title").Text = (LegacyRunner.CurrentAttempt.IsReplay ? "[REPLAY] " : "") + LegacyRunner.CurrentAttempt.Map.PrettyTitle;
 		holder.GetNode<Label>("Difficulty").Text = LegacyRunner.CurrentAttempt.Map.DifficultyName;
 		holder.GetNode<Label>("Mappers").Text = $"by {LegacyRunner.CurrentAttempt.Map.PrettyMappers}";
 		holder.GetNode<Label>("Accuracy").Text = $"{LegacyRunner.CurrentAttempt.Accuracy.ToString().PadDecimals(2)}%";
@@ -54,12 +54,12 @@ public partial class Results : BaseScene
 
 		if (LegacyRunner.CurrentAttempt.Map.CoverBuffer != null)
 		{
-		    Image img = Util.Misc.LoadImageFromBuffer(LegacyRunner.CurrentAttempt.Map.CoverBuffer);
-		    if (img != null)
-		    {
-		        cover.Texture = ImageTexture.CreateFromImage(img);
-		        GetNode<TextureRect>("CoverBackground").Texture = cover.Texture;
-		    }
+			Image img = Util.Misc.LoadImageFromBuffer(LegacyRunner.CurrentAttempt.Map.CoverBuffer);
+			if (img != null)
+			{
+				cover.Texture = ImageTexture.CreateFromImage(img);
+				GetNode<TextureRect>("CoverBackground").Texture = cover.Texture;
+			}
 		}
 
 		if (LegacyRunner.CurrentAttempt.Map.AudioBuffer != null)

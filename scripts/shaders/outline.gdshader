@@ -1,9 +1,9 @@
 shader_type canvas_item;
 
-uniform vec3 outline_color : source_color = vec3(0.05, 0.05, 0.05);
+uniform vec3 outline_color : source_color = vec3(0.05, 0.0, 0.05);
 uniform float outline_opacity : hint_range(0.0, 1.0) = 1.0;
-uniform vec4 light_color : source_color = vec4(0.79, 0.0, 0.27, 1.0);
-uniform vec4 cursor_light_color : source_color = vec4(0.15, 0.15, 0.15, 1.0);
+uniform vec4 light_color : source_color = vec4(0.79, 0.0, 0.79, 1.0);
+uniform vec4 cursor_light_color : source_color = vec4(0.15, 0.0, 0.15, 1.0);
 uniform float fill : hint_range(0.0, 1.0) = 0.0;
 uniform float glow_radius : hint_range(0.0, 1000.0, 1.0) = 350.0;
 uniform float glow_exponent : hint_range(0.0, 10.0, 0.1) = 2.0;
