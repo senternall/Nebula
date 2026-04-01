@@ -2,23 +2,20 @@
 
 [ext_resource type="Script" uid="uid://8s0npsnw42ce" path="res://scripts/scenes/LegacyRunner.cs" id="1_1hgss"]
 [ext_resource type="ArrayMesh" uid="uid://ceww5w8t33lqy" path="res://user/meshes/squircle.obj" id="2_e1j6l"]
-[ext_resource type="Texture2D" uid="uid://b3g4aw54n6bow" path="res://user/skins/default/game/grid.png" id="2_q78ea"]
 [ext_resource type="Script" uid="uid://okqdw5gj567n" path="res://scripts/game/LegacyRenderer.cs" id="3_ew8wr"]
-[ext_resource type="Texture2D" uid="uid://3e1tjlr4m0wt" path="res://user/skins/default/game/cursor.png" id="3_negii"]
+[ext_resource type="Texture2D" uid="uid://3e1tjlr4m0wt" path="res://user/skins/nebula/game/cursor.png" id="3_negii"]
 [ext_resource type="Theme" uid="uid://dhuhu3mmaew1a" path="res://themes/theme.tres" id="4_rvp5o"]
 [ext_resource type="FontFile" uid="uid://4bnnn01f4dqr" path="res://fonts/Ubuntu-Medium.ttf" id="5_pxgh4"]
-[ext_resource type="Texture2D" uid="uid://cxv6ey5xb6b0f" path="res://user/skins/default/game/health_background.png" id="6_bbly8"]
-[ext_resource type="Texture2D" uid="uid://4x2vfpyjkri6" path="res://user/skins/default/game/health.png" id="7_wjg6i"]
-[ext_resource type="Texture2D" uid="uid://dmc5f6ajp8xv1" path="res://user/skins/default/game/progress_background.png" id="8_eu3ux"]
+[ext_resource type="Texture2D" uid="uid://cxv6ey5xb6b0f" path="res://user/skins/nebula/game/health_background.png" id="6_bbly8"]
+[ext_resource type="Texture2D" uid="uid://4x2vfpyjkri6" path="res://user/skins/nebula/game/health.png" id="7_wjg6i"]
+[ext_resource type="Texture2D" uid="uid://dmc5f6ajp8xv1" path="res://user/skins/nebula/game/progress_background.png" id="8_eu3ux"]
 [ext_resource type="Shader" uid="uid://dsysoy6w8ndnk" path="res://scripts/shaders/video_background.gdshader" id="8_ocxsu"]
-[ext_resource type="Texture2D" uid="uid://d3s17ehomjscd" path="res://user/skins/default/game/progress.png" id="9_nde5v"]
+[ext_resource type="Texture2D" uid="uid://d3s17ehomjscd" path="res://user/skins/nebula/game/progress.png" id="9_nde5v"]
 [ext_resource type="FontFile" uid="uid://cmjos3o0k2f6t" path="res://fonts/Comfortaa-Medium.ttf" id="11_o37lt"]
-[ext_resource type="Texture2D" uid="uid://80bitp5weqrb" path="res://user/skins/default/game/panel_left_background.png" id="11_sdncv"]
+[ext_resource type="Texture2D" uid="uid://80bitp5weqrb" path="res://user/skins/nebula/game/panel_left_background.png" id="11_sdncv"]
 [ext_resource type="FontFile" uid="uid://b6hgjef6s6oly" path="res://fonts/Comfortaa-Bold.ttf" id="12_axsek"]
-[ext_resource type="Texture2D" uid="uid://diba7c3s8as4s" path="res://user/skins/default/game/panel_right_background.png" id="12_whe6p"]
-[ext_resource type="Texture2D" uid="uid://dw2gxd3m24h4m" path="res://user/skins/default/game/hits.png" id="13_6rhgc"]
-[ext_resource type="Shader" uid="uid://bp2sv5ynsubi2" path="res://scripts/shaders/alpha_gradient.gdshader" id="14_3xchs"]
-[ext_resource type="Texture2D" uid="uid://c3x2cp3tx4vqt" path="res://user/skins/default/game/misses.png" id="14_bqf11"]
+[ext_resource type="Texture2D" uid="uid://diba7c3s8as4s" path="res://user/skins/nebula/game/panel_right_background.png" id="12_whe6p"]
+[ext_resource type="Texture2D" uid="uid://dw2gxd3m24h4m" path="res://user/skins/nebula/game/hits.png" id="13_6rhgc"]
 [ext_resource type="Shader" uid="uid://bx4888tau78tk" path="res://scripts/shaders/combo_progress.gdshader" id="14_y51pe"]
 [ext_resource type="Texture2D" uid="uid://lfj8i1bi6kfs" path="res://textures/ui/pause.png" id="23_7silw"]
 [ext_resource type="FontFile" uid="uid://dotb3skhwouha" path="res://fonts/Roboto-Bold.ttf" id="23_wf21h"]
@@ -74,11 +71,13 @@ transform_format = 1
 use_colors = true
 mesh = ExtResource("2_e1j6l")
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1kice"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a6jk1"]
 resource_name = "Material"
 transparency = 1
 shading_mode = 0
-albedo_texture = ExtResource("2_q78ea")
+albedo_texture = SubResource("CompressedTexture2D_1kice")
 texture_repeat = false
 
 [sub_resource type="QuadMesh" id="QuadMesh_aih2q"]
@@ -193,9 +192,29 @@ shader_parameter/size = 1.0
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_56f8v"]
 bg_color = Color(0, 0, 0, 0)
 
+[sub_resource type="LabelSettings" id="LabelSettings_5newe"]
+font_size = 75
+outline_color = Color(0.012617188, 0.012617188, 0.012617188, 0)
+
 [sub_resource type="LabelSettings" id="LabelSettings_usmyc"]
-font = ExtResource("12_axsek")
+font_size = 40
+shadow_size = 5
+shadow_color = Color(0, 0, 0, 0.5882353)
+
+[sub_resource type="LabelSettings" id="LabelSettings_37s47"]
+font_size = 30
+shadow_size = 5
+shadow_color = Color(0, 0, 0, 0.5882353)
+
+[sub_resource type="LabelSettings" id="LabelSettings_pl11u"]
 font_size = 50
+shadow_size = 5
+shadow_color = Color(0, 0, 0, 0.5882353)
+
+[sub_resource type="LabelSettings" id="LabelSettings_v63ri"]
+font_size = 30
+shadow_size = 5
+shadow_color = Color(0, 0, 0, 0.5882353)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_suyxu"]
 viewport_path = NodePath("PanelRight/PanelRightViewport")
@@ -209,26 +228,26 @@ albedo_texture = SubResource("ViewportTexture_suyxu")
 texture_repeat = false
 
 [sub_resource type="LabelSettings" id="LabelSettings_5bid2"]
-font = ExtResource("12_axsek")
 font_size = 30
-font_color = Color(1, 1, 1, 0.627451)
-
-[sub_resource type="LabelSettings" id="LabelSettings_v63ri"]
-font = ExtResource("12_axsek")
-font_size = 30
-font_color = Color(1, 1, 1, 0.627451)
+outline_color = Color(1, 1, 1, 0)
+shadow_size = 5
+shadow_color = Color(0, 0, 0, 0.5882353)
 
 [sub_resource type="LabelSettings" id="LabelSettings_g4ffu"]
 font = ExtResource("11_o37lt")
 font_size = 50
 font_color = Color(1, 1, 1, 0.768627)
 
-[sub_resource type="LabelSettings" id="LabelSettings_s1j5a"]
-font = ExtResource("12_axsek")
-font_size = 50
+[sub_resource type="LabelSettings" id="LabelSettings_bt5mj"]
+font_size = 30
+outline_color = Color(1, 1, 1, 0)
+shadow_size = 5
+shadow_color = Color(0, 0, 0, 0.5882353)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_gc8yu"]
-shader = ExtResource("14_3xchs")
+[sub_resource type="LabelSettings" id="LabelSettings_1kice"]
+font_size = 30
+shadow_size = 5
+shadow_color = Color(0, 0, 0, 0.5882353)
 
 [node name="SceneGame" type="Node" unique_id=909809067]
 script = ExtResource("1_1hgss")
@@ -481,7 +500,7 @@ multimesh = SubResource("MultiMesh_e28va")
 mesh = SubResource("QuadMesh_xij4d")
 
 [node name="Health" type="MeshInstance3D" parent="." unique_id=449857227]
-transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, -6.3, -10)
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, -6.1, -10)
 cast_shadow = 0
 mesh = SubResource("QuadMesh_b1hbo")
 
@@ -513,7 +532,7 @@ expand_mode = 1
 stretch_mode = 1
 
 [node name="ProgressBar" type="MeshInstance3D" parent="." unique_id=528447019]
-transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 6.3, -10)
+transform = Transform3D(1, 0, 0, 0, 1.4488888, -0.31058276, 0, 0.38822842, 1.1591111, 0, 6.3, -10)
 cast_shadow = 0
 mesh = SubResource("QuadMesh_7mook")
 
@@ -594,24 +613,11 @@ anchor_left = 0.5
 anchor_top = 0.65
 anchor_right = 0.5
 anchor_bottom = 0.65
-offset_left = -128.0
-offset_top = -128.0
-offset_right = 128.0
-offset_bottom = 128.0
+offset_left = -187.5
+offset_top = -468.75
+offset_right = 187.5
+offset_bottom = -128.75
 theme_override_styles/panel = SubResource("StyleBoxFlat_56f8v")
-
-[node name="Score" type="Label" parent="PanelLeft/PanelLeftViewport" unique_id=1330190508]
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.35
-anchor_right = 0.5
-anchor_bottom = 0.35
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("4_rvp5o")
-text = "0"
-label_settings = SubResource("LabelSettings_usmyc")
-horizontal_alignment = 1
 
 [node name="Multiplier" type="Label" parent="PanelLeft/PanelLeftViewport" unique_id=1660490363]
 anchors_preset = -1
@@ -619,12 +625,78 @@ anchor_left = 0.5
 anchor_top = 0.65
 anchor_right = 0.5
 anchor_bottom = 0.65
+offset_left = -35.0
+offset_top = -346.25
+offset_right = 54.0
+offset_bottom = -257.25
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(0.8, 1)
 theme = ExtResource("4_rvp5o")
 text = "1x"
+label_settings = SubResource("LabelSettings_5newe")
+horizontal_alignment = 1
+
+[node name="Accuracy" type="Label" parent="PanelLeft/PanelLeftViewport" unique_id=1669266042]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.35
+anchor_right = 0.5
+anchor_bottom = 0.35
+offset_left = -72.5
+offset_top = 281.25
+offset_right = 113.5
+offset_bottom = 338.25
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+theme = ExtResource("4_rvp5o")
+text = "-"
 label_settings = SubResource("LabelSettings_usmyc")
 horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="PanelLeft/PanelLeftViewport" unique_id=1061877039]
+offset_left = 55.0
+offset_top = 460.0
+offset_right = 206.0
+offset_bottom = 502.0
+text = "ACCURACY"
+label_settings = SubResource("LabelSettings_37s47")
+
+[node name="LetterGrade" type="Label" parent="PanelLeft/PanelLeftViewport" unique_id=2088125990]
+offset_left = 110.0
+offset_top = 350.0
+offset_right = 261.0
+offset_bottom = 501.0
+text = "--"
+label_settings = SubResource("LabelSettings_pl11u")
+
+[node name="Pauses" type="Label" parent="PanelLeft/PanelLeftViewport" unique_id=984013923]
+visible = false
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.625
+anchor_right = 0.5
+anchor_bottom = 0.625
+offset_left = -10.0
+offset_top = -140.625
+offset_right = 7.0
+offset_bottom = -104.625
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme = ExtResource("4_rvp5o")
+text = "0"
+label_settings = SubResource("LabelSettings_v63ri")
+
+[node name="Label4" type="Label" parent="PanelLeft/PanelLeftViewport" unique_id=1190436731]
+visible = false
+offset_left = 70.0
+offset_top = 200.0
+offset_right = 173.0
+offset_bottom = 242.0
+text = "PAUSES"
+label_settings = SubResource("LabelSettings_37s47")
 
 [node name="PanelRight" type="MeshInstance3D" parent="." unique_id=1993445313]
 transform = Transform3D(0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, 0.984808, 7.5, 0, -9)
@@ -646,33 +718,22 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("12_whe6p")
 
-[node name="Accuracy" type="Label" parent="PanelRight/PanelRightViewport" unique_id=1669266042]
+[node name="Score" type="Label" parent="PanelRight/PanelRightViewport" unique_id=1330190508]
 anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.35
 anchor_right = 0.5
 anchor_bottom = 0.35
+offset_left = -15.0
+offset_top = -138.75
+offset_right = 14.0
+offset_bottom = -81.75
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("4_rvp5o")
-text = "100.00%"
+text = "0"
 label_settings = SubResource("LabelSettings_usmyc")
 horizontal_alignment = 1
-
-[node name="Hits" type="Label" parent="PanelRight/PanelRightViewport" unique_id=2096630009]
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.625
-anchor_right = 0.5
-anchor_bottom = 0.625
-offset_right = -25.0
-grow_horizontal = 0
-grow_vertical = 2
-size_flags_horizontal = 4
-theme = ExtResource("4_rvp5o")
-text = "0"
-label_settings = SubResource("LabelSettings_5bid2")
-horizontal_alignment = 2
 
 [node name="Misses" type="Label" parent="PanelRight/PanelRightViewport" unique_id=1379241442]
 anchors_preset = -1
@@ -680,12 +741,47 @@ anchor_left = 0.5
 anchor_top = 0.625
 anchor_right = 0.5
 anchor_bottom = 0.625
-offset_left = 25.0
+offset_left = -10.0
+offset_top = -140.625
+offset_right = 7.0
+offset_bottom = -104.625
+grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 theme = ExtResource("4_rvp5o")
 text = "0"
 label_settings = SubResource("LabelSettings_v63ri")
+
+[node name="Hits" type="Label" parent="PanelRight/PanelRightViewport" unique_id=2096630009]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.625
+anchor_right = 0.5
+anchor_bottom = 0.625
+offset_left = -37.0
+offset_top = 106.375
+offset_right = -8.0
+offset_bottom = 163.375
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 4
+text = "0"
+label_settings = SubResource("LabelSettings_5bid2")
+horizontal_alignment = 2
+
+[node name="Sum" type="Label" parent="PanelRight/PanelRightViewport" unique_id=634248032]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.625
+anchor_right = 0.5
+anchor_bottom = 0.625
+offset_top = 106.375
+offset_right = 29.0
+offset_bottom = 163.375
+grow_vertical = 2
+size_flags_horizontal = 4
+text = "0"
+label_settings = SubResource("LabelSettings_5bid2")
 
 [node name="SimpleMisses" type="Label" parent="PanelRight/PanelRightViewport" unique_id=1871751782]
 visible = false
@@ -701,60 +797,36 @@ theme = ExtResource("4_rvp5o")
 text = "0"
 label_settings = SubResource("LabelSettings_g4ffu")
 
-[node name="Sum" type="Label" parent="PanelRight/PanelRightViewport" unique_id=150248329]
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.7
-anchor_right = 0.5
-anchor_bottom = 0.7
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-theme = ExtResource("4_rvp5o")
-text = "0"
-label_settings = SubResource("LabelSettings_s1j5a")
-horizontal_alignment = 1
+[node name="Label" type="Label" parent="PanelRight/PanelRightViewport" unique_id=1670506925]
+offset_left = 117.0
+offset_top = 490.0
+offset_right = 157.0
+offset_bottom = 566.0
+scale = Vector2(0.75, 1.3)
+text = "/"
+label_settings = SubResource("LabelSettings_bt5mj")
 
-[node name="HitsIcon" type="TextureRect" parent="PanelRight/PanelRightViewport" unique_id=482771805]
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.625
-anchor_right = 0.5
-anchor_bottom = 0.625
-offset_top = -12.0
-offset_right = -2.0
-offset_bottom = 7.0
-grow_horizontal = 0
-grow_vertical = 2
-theme = ExtResource("4_rvp5o")
-texture = ExtResource("13_6rhgc")
-expand_mode = 2
+[node name="Label2" type="Label" parent="PanelRight/PanelRightViewport" unique_id=17257796]
+offset_left = 75.0
+offset_top = 460.0
+offset_right = 170.0
+offset_bottom = 502.0
+text = "NOTES"
+label_settings = SubResource("LabelSettings_1kice")
 
-[node name="MissesIcon" type="TextureRect" parent="PanelRight/PanelRightViewport" unique_id=901292564]
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.625
-anchor_right = 0.5
-anchor_bottom = 0.625
-offset_left = 2.0
-offset_top = -12.0
-offset_bottom = 7.0
-grow_vertical = 2
-theme = ExtResource("4_rvp5o")
-texture = ExtResource("14_bqf11")
-expand_mode = 2
+[node name="Label3" type="Label" parent="PanelRight/PanelRightViewport" unique_id=1320687826]
+offset_left = 70.0
+offset_top = 200.0
+offset_right = 173.0
+offset_bottom = 242.0
+text = "MISSES"
+label_settings = SubResource("LabelSettings_37s47")
 
-[node name="Line" type="ColorRect" parent="PanelRight/PanelRightViewport" unique_id=629344643]
-material = SubResource("ShaderMaterial_gc8yu")
-anchors_preset = -1
-anchor_top = 0.65
-anchor_right = 1.0
-anchor_bottom = 0.65
-offset_left = 16.0
-offset_right = -16.0
-offset_bottom = 2.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="HitsIcon" type="TextureRect" parent="PanelRight/PanelRightViewport" unique_id=1298998963]
+visible = false
+
+[node name="MissesIcon" type="TextureRect" parent="PanelRight/PanelRightViewport" unique_id=130110117]
+visible = false
 
 [node name="Progress" type="Label3D" parent="." unique_id=496335082]
 transform = Transform3D(3.5, 0, 0, 0, 3.38074, -0.905867, 0, 0.905867, 3.38074, 0, 7, -10)
@@ -762,14 +834,12 @@ pixel_size = 0.0025
 modulate = Color(1, 1, 1, 0.74509805)
 outline_modulate = Color(0, 0, 0, 0)
 text = "0:00 / 0:00"
-font = ExtResource("12_axsek")
 font_size = 64
 
 [node name="Title" type="Label3D" parent="." unique_id=841289409]
 transform = Transform3D(2, 0, 0, 0, 1.93185, -0.517638, 0, 0.517638, 1.93185, 0, 8.25, -10)
 outline_modulate = Color(0, 0, 0, 0)
 text = "N/A - N/A"
-font = ExtResource("12_axsek")
 font_size = 64
 autowrap_mode = 3
 width = 2500.0
@@ -777,25 +847,25 @@ width = 2500.0
 [node name="Combo" type="Label3D" parent="." unique_id=1330017059]
 transform = Transform3D(7, 0, 0, 0, 6.89365, -1.21554, 0, 1.21554, 6.89365, 0, 3.5, -10)
 pixel_size = 0.0025
-modulate = Color(1, 1, 1, 0)
+modulate = Color(0.19793725, 0.19793725, 0.19793719, 1)
 outline_modulate = Color(1, 1, 1, 0.39215687)
 text = "0"
-font = ExtResource("5_pxgh4")
 font_size = 64
-outline_size = 4
+outline_size = 0
 
 [node name="Speed" type="Label3D" parent="." unique_id=1294863906]
 transform = Transform3D(7, 0, 0, 0, 6.76148, 1.81173, 0, -1.81173, 6.76148, 0, -7.5, -10)
 pixel_size = 0.0025
 modulate = Color(1, 1, 1, 0.39215687)
 outline_modulate = Color(0, 0, 0, 0)
-text = "1.00x"
+text = "1.00"
 font = ExtResource("5_pxgh4")
 
 [node name="Skip" type="Label3D" parent="." unique_id=1231864437]
-transform = Transform3D(7, 0, 0, 0, 6.76148, 1.81173, 0, -1.81173, 6.76148, 0, -5, -10)
+transform = Transform3D(7, 0, 0, 0, 6.76148, 1.81173, 0, -1.81173, 6.76148, 0, -6.6749935, -10)
 pixel_size = 0.0025
 modulate = Color(1, 1, 1, 0)
 outline_modulate = Color(0, 0, 0, 0)
 text = "Press Space to skip"
 font = ExtResource("12_axsek")
+font_size = 30

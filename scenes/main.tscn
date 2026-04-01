@@ -7,7 +7,7 @@
 [ext_resource type="FontFile" uid="uid://4bnnn01f4dqr" path="res://fonts/Ubuntu-Medium.ttf" id="5_choun"]
 [ext_resource type="Texture2D" uid="uid://men3chmi3esy" path="res://textures/ui/add.png" id="6_ya4ey"]
 [ext_resource type="Shader" uid="uid://rngh60dyh10b" path="res://scripts/shaders/outline.gdshader" id="7_eb6dy"]
-[ext_resource type="Texture2D" uid="uid://3e1tjlr4m0wt" path="res://user/skins/default/game/cursor.png" id="8_85g3d"]
+[ext_resource type="Texture2D" uid="uid://3e1tjlr4m0wt" path="res://user/skins/nebula/game/cursor.png" id="8_85g3d"]
 [ext_resource type="Script" uid="uid://carutkgoqpr4e" path="res://scripts/ui/MenuCursor.cs" id="9_choun"]
 [ext_resource type="Script" uid="uid://bmq7ajx48l7ng" path="res://scripts/ui/FPSCounter.cs" id="10_choun"]
 

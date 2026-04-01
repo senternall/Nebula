@@ -8,40 +8,40 @@ public partial class MainMenu : BaseScene
 	public Panel CurrentMenu;
 	public Panel LastMenu;
 
-    public Panel HomeMenu;
-    public Panel PlayMenu;
-    public Panel TopBar;
-    public JukeboxPanel Jukebox;
-    public MapList MapList;
-    public MapInfo MapInfo;
+	public Panel HomeMenu;
+	public Panel PlayMenu;
+	public Panel TopBar;
+	public JukeboxPanel Jukebox;
+	public MapList MapList;
+	public MapInfo MapInfo;
 
-    private Panel menuHolder;
-    private Node topBarButtonsContainer;
+	private Panel menuHolder;
+	private Node topBarButtonsContainer;
 
-    public override void _Ready()
+	public override void _Ready()
 	{
-        base._Ready();
+		base._Ready();
 
-        menuHolder = GetNode<Panel>("Menus");
+		menuHolder = GetNode<Panel>("Menus");
 
-        HomeMenu = menuHolder.GetNode<Panel>("Home");
-        PlayMenu = menuHolder.GetNode<Panel>("Play");
-        LastMenu = HomeMenu;
+		HomeMenu = menuHolder.GetNode<Panel>("Home");
+		PlayMenu = menuHolder.GetNode<Panel>("Play");
+		LastMenu = HomeMenu;
 
-        TopBar = GetNode<Panel>("TopBar");
-        topBarButtonsContainer = TopBar.GetNode("MenuButtons");
-        Jukebox = GetNode<JukeboxPanel>("JukeboxPanel");
-        MapList = PlayMenu.GetNode<MapList>("MapList");
-        MapInfo = PlayMenu.GetNode<MapInfo>("MapInfo");
+		TopBar = GetNode<Panel>("TopBar");
+		topBarButtonsContainer = TopBar.GetNode("MenuButtons");
+		Jukebox = GetNode<JukeboxPanel>("JukeboxPanel");
+		MapList = PlayMenu.GetNode<MapList>("MapList");
+		MapInfo = PlayMenu.GetNode<MapInfo>("MapInfo");
 
-        CurrentMenu = HomeMenu;
+		CurrentMenu = HomeMenu;
 
-        Input.MouseMode = SettingsManager.Instance.Settings.UseCursorInMenus ? Input.MouseModeEnum.Hidden : Input.MouseModeEnum.Visible;
+		Input.MouseMode = SettingsManager.Instance.Settings.UseCursorInMenus ? Input.MouseModeEnum.Hidden : Input.MouseModeEnum.Visible;
 
-        List<Node> menuButtons = [.. HomeMenu.GetNode("Buttons").GetChildren()];
-        menuButtons.AddRange(topBarButtonsContainer.GetChildren());
+		List<Node> menuButtons = [.. HomeMenu.GetNode("Buttons").GetChildren()];
+		menuButtons.AddRange(topBarButtonsContainer.GetChildren());
 
-        foreach (Button button in menuButtons)
+		foreach (Button button in menuButtons)
 		{
 			Panel menu = (Panel)menuHolder.FindChild(button.Name, false);
 
@@ -50,7 +50,7 @@ public partial class MainMenu : BaseScene
 				button.Pressed += () => { Transition(menu); };
 			}
 		}
-    }
+	}
 
 	public override void _Input(InputEvent @event)
 	{
@@ -75,40 +75,40 @@ public partial class MainMenu : BaseScene
 			switch (key.Keycode)
 			{
 				case Key.Escape:
-                    Transition(HomeMenu);
-                    break;
-            }
+					Transition(HomeMenu);
+					break;
+			}
 		}
 	}
 
 	public override void Load()
 	{
-        base.Load();
+		base.Load();
 
-        DisplayServer.WindowSetVsyncMode(DisplayServer.VSyncMode.Adaptive);
+		DisplayServer.WindowSetVsyncMode(DisplayServer.VSyncMode.Adaptive);
 
-        MapInfo.InfoContainer?.Refresh();
+		MapInfo.InfoContainer?.Refresh();
 		SceneManager.Space?.UpdateState(false);
 
-        var map = MapManager.Selected.Value;
+		var map = MapManager.Selected.Value;
 
-        if (map != null)
-        {
-            SceneManager.Space?.UpdateMap(map);
-        }
-    }
+		if (map != null)
+		{
+			SceneManager.Space?.UpdateMap(map);
+		}
+	}
 
 	public void Transition(Panel menu, bool instant = false)
 	{
 		if (CurrentMenu == menu) { return; }
 
-        LastMenu = CurrentMenu;
+		LastMenu = CurrentMenu;
 		CurrentMenu = menu;
 
 		topBarButtonsContainer.GetNode<Button>(new(LastMenu.Name)).Disabled = false;
 		topBarButtonsContainer.GetNode<Button>(new(CurrentMenu.Name)).Disabled = true;
 
-        double tweenTime = instant ? 0 : 0.15;
+		double tweenTime = instant ? 0 : 0.15;
 
 		Tween outTween = CreateTween().SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.In);
 		outTween.TweenProperty(LastMenu, "modulate", Color.Color8(255, 255, 255, 0), tweenTime);

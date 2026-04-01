@@ -17,6 +17,7 @@ vertex_color_use_as_albedo = true
 albedo_texture = ExtResource("2_cmhau")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_cmhau"]
+lightmap_size_hint = Vector2i(4, 4)
 material = SubResource("StandardMaterial3D_v8td3")
 size = Vector2(0.5, 0.5)
 
@@ -42,7 +43,7 @@ size = 1.25
 [node name="ParticlesNear" type="CPUParticles3D" parent="." unique_id=1334373449]
 transform = Transform3D(20, 0, 0, 0, -4.371139e-09, -20, 0, 0.1, -8.742278e-07, 0, 0, -15)
 sorting_offset = -1000.0
-amount = 12
+amount = 20
 lifetime = 20.0
 preprocess = 5.0
 local_coords = true

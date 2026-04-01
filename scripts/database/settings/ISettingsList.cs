@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Godot;
 
 public interface ISettingsList
 {
-    Variant DefaultValue { get; }
+	Variant DefaultValue { get; }
 
-    Variant SelectedValue { get; set; }
+	Variant SelectedValue { get; set; }
 
-    IList<Variant> Values { get; }
+	IList<Variant> Values { get; }
 }

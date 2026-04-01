@@ -10,49 +10,50 @@
 [ext_resource type="Script" uid="uid://bnead3awk7yr4" path="res://scripts/ui/menu/SettingsMenuButton.cs" id="8_yxnar"]
 [ext_resource type="Script" uid="uid://byighsqkmf2c4" path="res://scripts/ui/menu/QuitButton.cs" id="9_yxnar"]
 [ext_resource type="Script" uid="uid://cqprxe41p0qov" path="res://scripts/ui/menu/Background.cs" id="10_eku7s"]
-[ext_resource type="Texture2D" uid="uid://cbbafomdyoenp" path="res://user/skins/default/ui/background_tile.png" id="10_ybca7"]
-[ext_resource type="Texture2D" uid="uid://b8wjaogc8fvq4" path="res://user/skins/default/ui/play/scrollbar_background_middle.png" id="12_k5xsf"]
+[ext_resource type="Texture2D" uid="uid://cbbafomdyoenp" path="res://user/skins/nebula/ui/background_tile.png" id="10_ybca7"]
+[ext_resource type="Texture2D" uid="uid://b8wjaogc8fvq4" path="res://user/skins/nebula/ui/play/scrollbar_background_middle.png" id="12_k5xsf"]
 [ext_resource type="Script" uid="uid://dsq135xacv1vh" path="res://scripts/ui/menu/play/MapList.cs" id="12_yxnar"]
-[ext_resource type="Texture2D" uid="uid://cr5wlhch2a3nc" path="res://user/skins/default/ui/play/scrollbar_background_top.png" id="13_71lbq"]
-[ext_resource type="Texture2D" uid="uid://bhcxdv0lm6nog" path="res://user/skins/default/ui/play/scrollbar_background_bottom.png" id="14_akqfu"]
-[ext_resource type="Texture2D" uid="uid://ddx87gpqy8hfo" path="res://user/skins/default/ui/play/scrollbar_middle.png" id="15_mb34c"]
-[ext_resource type="Texture2D" uid="uid://cltk7bcbr5o51" path="res://user/skins/default/ui/buttons/layout_list.png" id="16_6h3lr"]
-[ext_resource type="Texture2D" uid="uid://6qtsltuf8u8e" path="res://user/skins/default/ui/play/scrollbar_top.png" id="16_sgh51"]
+[ext_resource type="Texture2D" uid="uid://cr5wlhch2a3nc" path="res://user/skins/nebula/ui/play/scrollbar_background_top.png" id="13_71lbq"]
+[ext_resource type="Texture2D" uid="uid://bhcxdv0lm6nog" path="res://user/skins/nebula/ui/play/scrollbar_background_bottom.png" id="14_akqfu"]
+[ext_resource type="Texture2D" uid="uid://ddx87gpqy8hfo" path="res://user/skins/nebula/ui/play/scrollbar_middle.png" id="15_mb34c"]
+[ext_resource type="Texture2D" uid="uid://cltk7bcbr5o51" path="res://user/skins/nebula/ui/buttons/layout_list.png" id="16_6h3lr"]
+[ext_resource type="Texture2D" uid="uid://6qtsltuf8u8e" path="res://user/skins/nebula/ui/play/scrollbar_top.png" id="16_sgh51"]
 [ext_resource type="Script" uid="uid://bc0ftljto8dtx" path="res://scripts/ui/menu/LayoutButton.cs" id="17_dj67d"]
-[ext_resource type="Texture2D" uid="uid://8jqgxhe6o58v" path="res://user/skins/default/ui/play/scrollbar_bottom.png" id="17_hjv1c"]
-[ext_resource type="Texture2D" uid="uid://bku8toppyall7" path="res://user/skins/default/ui/play/maplist_mask.png" id="18_41a2d"]
-[ext_resource type="Texture2D" uid="uid://baivqqkfll133" path="res://textures/RhythiaSquircle.png" id="18_eku7s"]
+[ext_resource type="Texture2D" uid="uid://8jqgxhe6o58v" path="res://user/skins/nebula/ui/play/scrollbar_bottom.png" id="17_hjv1c"]
+[ext_resource type="Texture2D" uid="uid://bku8toppyall7" path="res://user/skins/nebula/ui/play/maplist_mask.png" id="18_41a2d"]
+[ext_resource type="Texture2D" uid="uid://baivqqkfll133" path="res://textures/-RhythiaSquircle.png" id="18_eku7s"]
 [ext_resource type="FontFile" uid="uid://4bnnn01f4dqr" path="res://fonts/Ubuntu-Medium.ttf" id="19_c6nra"]
-[ext_resource type="Texture2D" uid="uid://bw35mprqnilk7" path="res://user/skins/default/ui/play/maplist_selection_cursor.png" id="19_f5cck"]
+[ext_resource type="Texture2D" uid="uid://bw35mprqnilk7" path="res://user/skins/nebula/ui/play/maplist_selection_cursor.png" id="19_f5cck"]
 [ext_resource type="Texture2D" uid="uid://ct67kupv6bmny" path="res://textures/ui/discord.png" id="20_qw82i"]
 [ext_resource type="Texture2D" uid="uid://c0wbm1qc5npty" path="res://textures/ui/discord_pressed.png" id="21_1468l"]
-[ext_resource type="Texture2D" uid="uid://dqg2qk62dxcc6" path="res://user/skins/default/ui/buttons/settings.png" id="21_s4ogs"]
+[ext_resource type="Texture2D" uid="uid://dqg2qk62dxcc6" path="res://user/skins/nebula/ui/buttons/settings.png" id="21_s4ogs"]
 [ext_resource type="Texture2D" uid="uid://d3buklvnhgqcy" path="res://textures/ui/discord_hovered.png" id="22_01xyg"]
-[ext_resource type="Texture2D" uid="uid://1fj6g1xt5b0" path="res://user/skins/default/ui/buttons/open_folder.png" id="22_ew011"]
+[ext_resource type="Texture2D" uid="uid://1fj6g1xt5b0" path="res://user/skins/nebula/ui/buttons/open_folder.png" id="22_ew011"]
 [ext_resource type="Script" uid="uid://bdxxohkj7wy22" path="res://scripts/ui/menu/play/MapInfo.cs" id="22_qw82i"]
-[ext_resource type="Texture2D" uid="uid://bvjkhxgqjmg7y" path="res://user/skins/default/ui/buttons/import.png" id="24_tcyl8"]
+[ext_resource type="Texture2D" uid="uid://bvjkhxgqjmg7y" path="res://user/skins/nebula/ui/buttons/import.png" id="24_tcyl8"]
 [ext_resource type="Script" uid="uid://c31515lg0ihgs" path="res://scripts/ui/menu/UserFolderButton.cs" id="27_eku7s"]
 [ext_resource type="Shader" uid="uid://cxckrd6xtplnx" path="res://scripts/shaders/jukebox_progress.gdshader" id="27_engjn"]
 [ext_resource type="Script" uid="uid://dx2wecnf76cyo" path="res://scripts/ui/AudioSpectrum.cs" id="27_hl5e0"]
-[ext_resource type="Texture2D" uid="uid://b44v7e2jfwmkn" path="res://user/skins/default/ui/buttons/random.png" id="27_tgcit"]
+[ext_resource type="Texture2D" uid="uid://b44v7e2jfwmkn" path="res://user/skins/nebula/ui/buttons/random.png" id="27_tgcit"]
 [ext_resource type="Script" uid="uid://d36x1ln46itd1" path="res://scripts/ui/menu/play/RandomPickButton.cs" id="27_u43bj"]
 [ext_resource type="Script" uid="uid://nob6vs2h1mwj" path="res://scripts/ui/menu/ImportButton.cs" id="28_eku7s"]
 [ext_resource type="Shader" uid="uid://rngh60dyh10b" path="res://scripts/shaders/outline.gdshader" id="30_q13xq"]
-[ext_resource type="Texture2D" uid="uid://bfy3x7rqnts4i" path="res://user/skins/default/ui/buttons/filter.png" id="31_5053t"]
-[ext_resource type="Texture2D" uid="uid://bl6ten82nkjmd" path="res://user/skins/default/ui/buttons/sort.png" id="32_2wgix"]
-[ext_resource type="Texture2D" uid="uid://c6k1k4817che2" path="res://user/skins/default/ui/buttons/author.png" id="33_b56yx"]
+[ext_resource type="Texture2D" uid="uid://bfy3x7rqnts4i" path="res://user/skins/nebula/ui/buttons/filter.png" id="31_5053t"]
+[ext_resource type="Texture2D" uid="uid://bl6ten82nkjmd" path="res://user/skins/nebula/ui/buttons/sort.png" id="32_2wgix"]
+[ext_resource type="Texture2D" uid="uid://c6k1k4817che2" path="res://user/skins/nebula/ui/buttons/author.png" id="33_b56yx"]
 [ext_resource type="Script" uid="uid://b47jydbbjdh3i" path="res://scripts/ui/menu/SoundSpaceButton.cs" id="33_yxnar"]
 [ext_resource type="Script" uid="uid://dtnrcumiy038m" path="res://scripts/ui/menu/play/SearchPanel.cs" id="34_71lbq"]
-[ext_resource type="Texture2D" uid="uid://bg3gjft0mamud" path="res://user/skins/default/ui/buttons/search.png" id="34_h5mb6"]
+[ext_resource type="Texture2D" uid="uid://bg3gjft0mamud" path="res://user/skins/nebula/ui/buttons/search.png" id="34_h5mb6"]
 [ext_resource type="Script" uid="uid://chb17y8gabhta" path="res://scripts/ui/menu/JukeboxPanel.cs" id="35_jvjdd"]
 [ext_resource type="Script" uid="uid://783e032bf2o3" path="res://scripts/ui/menu/extras/StatsPanel.cs" id="37_wadof"]
 [ext_resource type="Script" uid="uid://bss5l0q8yh47u" path="res://scripts/ui/menu/extras/CreditsPanel.cs" id="39_b4jiv"]
 [ext_resource type="Texture2D" uid="uid://de86kol23e55h" path="res://textures/ui/github.png" id="41_akqfu"]
 [ext_resource type="Texture2D" uid="uid://c60rl8itmawe7" path="res://textures/ui/github_pressed.png" id="42_mb34c"]
+[ext_resource type="Texture2D" uid="uid://c4jjh4p67xlav" path="res://textures/RhythiaSquircle.png" id="43_71lbq"]
 [ext_resource type="Texture2D" uid="uid://cfl8us0rpkpqs" path="res://textures/ui/github_hovered.png" id="43_sgh51"]
 [ext_resource type="Script" uid="uid://c1235cyjfh4rl" path="res://scripts/ui/LinkPopupButton.cs" id="44_ybca7"]
-[ext_resource type="Texture2D" uid="uid://8du82a5dxjdk" path="res://user/skins/default/ui/jukebox_play.png" id="48_q1l3m"]
-[ext_resource type="Texture2D" uid="uid://bpsvcunhigs6c" path="res://user/skins/default/ui/jukebox_skip.png" id="49_7u5pb"]
+[ext_resource type="Texture2D" uid="uid://8du82a5dxjdk" path="res://user/skins/nebula/ui/jukebox_play.png" id="48_q1l3m"]
+[ext_resource type="Texture2D" uid="uid://bpsvcunhigs6c" path="res://user/skins/nebula/ui/jukebox_skip.png" id="49_7u5pb"]
 
 [sub_resource type="SystemFont" id="SystemFont_lsskb"]
 font_names = PackedStringArray("Ubuntu")
@@ -80,22 +81,27 @@ content_margin_left = 16.0
 content_margin_top = 16.0
 content_margin_right = 16.0
 content_margin_bottom = 16.0
-bg_color = Color(0.1, 0.1, 0.1, 0.6)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
+bg_color = Color(0.1764706, 0, 0.1764706, 0.39215687)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_l7ueg"]
 shader = ExtResource("4_1a85y")
 shader_parameter/brightness = 0.5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wadof"]
-bg_color = Color(1, 1, 1, 1)
+bg_color = Color(0.09803922, 0, 0.09803922, 0.39215687)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [sub_resource type="LabelSettings" id="LabelSettings_0uejd"]
 font = ExtResource("5_hl5e0")
 font_size = 36
+font_color = Color(1, 0.627451, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5gt56"]
 bg_color = Color(0, 0, 0, 0.0627451)
@@ -137,20 +143,28 @@ content_margin_left = 8.0
 content_margin_top = 8.0
 content_margin_right = 8.0
 content_margin_bottom = 8.0
-bg_color = Color(0, 0, 0, 0.47058824)
-corner_radius_top_left = 2
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 2
+bg_color = Color(0.078431375, 0, 0.078431375, 0.5882353)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.39215687, 0, 0.39215687, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b4jiv"]
 content_margin_left = 16.0
 content_margin_top = 8.0
 content_margin_right = 8.0
 content_margin_bottom = 8.0
-bg_color = Color(0.2, 0.2, 0.2, 0.078431375)
+bg_color = Color(0.23529412, 0, 0.23529412, 0.5882353)
 border_width_left = 2
-border_color = Color(1, 1, 1, 1)
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.39215687, 1, 1)
 border_blend = true
 corner_radius_top_left = 2
 corner_radius_top_right = 8
@@ -162,14 +176,33 @@ content_margin_left = 16.0
 content_margin_top = 8.0
 content_margin_right = 8.0
 content_margin_bottom = 8.0
-bg_color = Color(0.1, 0.1, 0.1, 0.3137255)
+bg_color = Color(0.15686275, 0, 0.15686275, 0.5882353)
 border_width_left = 2
-border_color = Color(0.7882353, 0, 0.27058825, 1)
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0, 1, 1)
 border_blend = true
-corner_radius_top_left = 2
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 2
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hjv1c"]
+content_margin_left = 8.0
+content_margin_top = 7.0
+content_margin_right = 8.0
+content_margin_bottom = 5.0
+bg_color = Color(0.3137255, 0, 0.3137255, 0.5882353)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.5882353, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6pifw"]
 
@@ -181,16 +214,6 @@ shader_parameter/brightness = 1.0
 bg_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 3
 corner_radius_bottom_left = 3
-
-[sub_resource type="Shader" id="Shader_1a85y"]
-code = "shader_type canvas_item;
-
-void vertex() {
-	UV.x -= TIME;
-}"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_eku7s"]
-shader = SubResource("Shader_1a85y")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c6nra"]
 
@@ -226,6 +249,16 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ooiyf"]
+
+[sub_resource type="Shader" id="Shader_1a85y"]
+code = "shader_type canvas_item;
+
+void vertex() {
+	UV.x -= TIME;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eku7s"]
+shader = SubResource("Shader_1a85y")
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u43bj"]
 
@@ -286,7 +319,7 @@ shader_parameter/brightness = 0.5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_engjn"]
 shader = ExtResource("27_engjn")
-shader_parameter/color_fill = Color(0.7882353, 0, 0.27058825, 1)
+shader_parameter/color_fill = Color(1, 0.5307449, 0.98592013, 1)
 shader_parameter/color_background = Color(1, 0.7921569, 0.8039216, 0.74509805)
 shader_parameter/progress = 0.0
 shader_parameter/margin = 0.0
@@ -367,7 +400,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0.0235294, 0.0196078, 0.0352941, 1)
+color = Color(0.05882353, 0, 0.05882353, 1)
 
 [node name="Menus" type="Panel" parent="." unique_id=169021205]
 anchors_preset = 15
@@ -414,7 +447,7 @@ layout_mode = 2
 
 [node name="Header" type="Label" parent="Menus/Home/News/VBoxContainer" unique_id=1350479761]
 layout_mode = 2
-text = "0.1.1 (early-26feb22)"
+text = "1.1 (early-26feb22)"
 label_settings = SubResource("LabelSettings_0uejd")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -423,16 +456,22 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(0, 400)
 layout_mode = 2
 theme = ExtResource("6_engjn")
+theme_override_colors/default_color = Color(1, 0.627451, 1, 1)
 theme_override_constants/line_separation = 2
 theme_override_constants/paragraph_separation = 6
 theme_override_fonts/normal_font = ExtResource("7_6h3lr")
 bbcode_enabled = true
-text = "[font_size=28][b]FEATURES[/b][font_size=18]
-+ Support for image files other than PNG & JPG[br]+ Reset to defaults setting[br]+ Display FPS setting[br]+ Parallax setting now applies to Spin mode[br]* Non-PHXM maps are now imported on startup (SSPM & TXT)
-[font_size=28][b]FIXES[/b][font_size=18]
-* Gameplay performance improvements (~25-35% increase)[br]* Improved map importing (faster and more reliable)[br]* Waves space coloring is more consistent[br]* Pressing ESC to close settings is more reliable[br]* Absolute input made more accurate[br]* Map preview no longer inverted[br]* Spin no longer displays a placeholder mod icon in gameplay
-[font_size=28][b]MISC[/b][font_size=18]
-* Set default window size to 1280x720"
+text = " [font_size=28][b]Features[/b][font_size=20]
+  + You can now see the times you started and finished at after finishing a map
+  + Made discord show that you're playing nebula instead of rhythia
+  * changed most of the ui (again) to look even better)
+  [font_size=28][b]NOTES[/b][font_size=20]
+  to get stuff like the border, cursor and such from
+  nightly, go into settings, visual and change your skin
+  to [Nebula]
+
+
+  [font_size=28][b]ENJOY! :3[/b][font_size=20]"
 shortcut_keys_enabled = false
 
 [node name="Panel" type="Panel" parent="Menus/Home/News/VBoxContainer/RichTextLabel" unique_id=1035549202]
@@ -453,9 +492,11 @@ offset_left = 64.0
 offset_top = 80.0
 offset_right = 400.0
 offset_bottom = -80.0
+theme = ExtResource("6_engjn")
 alignment = 1
 
 [node name="Play" type="Button" parent="Menus/Home/Buttons" unique_id=621731251]
+modulate = Color(1, 0.627451, 1, 1)
 layout_mode = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
@@ -463,10 +504,11 @@ theme = SubResource("Theme_m671i")
 theme_override_styles/normal = SubResource("StyleBoxFlat_764ux")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_b4jiv")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vanrq")
-text = "PLAY"
-alignment = 0
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_hjv1c")
+text = "PLAY :3"
 
 [node name="Settings" type="Button" parent="Menus/Home/Buttons" unique_id=1066091631]
+modulate = Color(1, 0.627451, 1, 1)
 layout_mode = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
@@ -474,11 +516,11 @@ theme = SubResource("Theme_m671i")
 theme_override_styles/normal = SubResource("StyleBoxFlat_764ux")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_b4jiv")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vanrq")
-text = "SETTINGS"
-alignment = 0
+text = "SETTINGS >w<"
 script = ExtResource("8_yxnar")
 
 [node name="Extras" type="Button" parent="Menus/Home/Buttons" unique_id=728550159]
+modulate = Color(1, 0.627451, 1, 1)
 layout_mode = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
@@ -486,10 +528,10 @@ theme = SubResource("Theme_m671i")
 theme_override_styles/normal = SubResource("StyleBoxFlat_764ux")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_b4jiv")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vanrq")
-text = "EXTRAS"
-alignment = 0
+text = "EXTRAS -w-"
 
 [node name="Quit" type="Button" parent="Menus/Home/Buttons" unique_id=87671349]
+modulate = Color(1, 0.627451, 1, 1)
 layout_mode = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
@@ -497,8 +539,7 @@ theme = SubResource("Theme_m671i")
 theme_override_styles/normal = SubResource("StyleBoxFlat_764ux")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_b4jiv")
 theme_override_styles/hover = SubResource("StyleBoxFlat_vanrq")
-text = "QUIT"
-alignment = 0
+text = "LEAVE :("
 script = ExtResource("9_yxnar")
 
 [node name="Play" type="Panel" parent="Menus" unique_id=91213776]
@@ -525,18 +566,6 @@ mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_u43bj")
 script = ExtResource("10_eku7s")
 
-[node name="Tile" type="TextureRect" parent="Menus/Play/Background" unique_id=2056220550]
-material = SubResource("ShaderMaterial_eku7s")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("10_ybca7")
-expand_mode = 1
-stretch_mode = 1
-
 [node name="MapList" type="Panel" parent="Menus/Play" unique_id=57262844]
 layout_mode = 1
 anchors_preset = -1
@@ -562,6 +591,7 @@ anchor_bottom = 1.0
 offset_left = -12.0
 grow_horizontal = 0
 grow_vertical = 2
+theme = ExtResource("6_engjn")
 
 [node name="Background" type="Panel" parent="Menus/Play/MapList/ScrollBar" unique_id=1662580390]
 layout_mode = 1
@@ -570,6 +600,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("6_engjn")
 
 [node name="Middle" type="TextureRect" parent="Menus/Play/MapList/ScrollBar/Background" unique_id=1237215233]
 layout_mode = 1
@@ -608,6 +639,7 @@ anchor_right = 1.0
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("6_engjn")
 
 [node name="Middle" type="TextureRect" parent="Menus/Play/MapList/ScrollBar/Main" unique_id=1280553248]
 layout_mode = 1
@@ -653,7 +685,7 @@ expand_mode = 1
 
 [node name="SelectionCursor" type="TextureRect" parent="Menus/Play/MapList" unique_id=370766884]
 modulate = Color(1, 1, 1, 0)
-self_modulate = Color(0.7921569, 0, 0.27450982, 1)
+self_modulate = Color(1, 0.39215687, 1, 1)
 layout_mode = 1
 anchors_preset = -1
 offset_left = -40.0
@@ -683,6 +715,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 mouse_filter = 1
+theme = ExtResource("6_engjn")
 theme_override_styles/panel = SubResource("StyleBoxEmpty_c6nra")
 
 [node name="SubTopBar" type="Panel" parent="Menus/Play" unique_id=1459712401]
@@ -916,6 +949,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme = ExtResource("6_engjn")
 theme_override_styles/panel = SubResource("StyleBoxFlat_u43bj")
 script = ExtResource("10_eku7s")
 
@@ -1609,6 +1643,15 @@ text = "[font_size=20]allusionist
 fit_content = true
 horizontal_alignment = 1
 
+[node name="senternal" type="RichTextLabel" parent="Menus/Extras/Credits/ScrollContainer/VBoxContainer" unique_id=1559056002]
+modulate = Color(0.42512736, 0.00056288915, 0.528383, 1)
+layout_mode = 2
+bbcode_enabled = true
+text = "[font_size=20]senternal
+[color=ffffffbb][font_size=16]Nebula"
+fit_content = true
+horizontal_alignment = 1
+
 [node name="Outline" type="Panel" parent="Menus/Extras/Credits" unique_id=239136532]
 material = SubResource("ShaderMaterial_yxnar")
 layout_mode = 1
@@ -1621,7 +1664,7 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_eku7s")
 
 [node name="TopBar" type="Panel" parent="." unique_id=560351556]
-anchors_preset = -1
+anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 72.0
 mouse_filter = 2
@@ -1639,6 +1682,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_wadof")
 
 [node name="Logo" type="TextureRect" parent="TopBar" unique_id=59839455]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_bottom = 1.0
@@ -1646,6 +1690,17 @@ offset_left = 6.0
 offset_top = 8.0
 offset_bottom = -8.0
 texture = ExtResource("18_eku7s")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="TextureRect" type="TextureRect" parent="TopBar" unique_id=1211106004]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 7.0
+offset_right = 503.0
+offset_bottom = 456.99997
+scale = Vector2(0.12, 0.12)
+texture = ExtResource("43_71lbq")
 expand_mode = 2
 stretch_mode = 5
 
@@ -1662,7 +1717,7 @@ grow_vertical = 2
 theme_override_fonts/normal_font = ExtResource("19_c6nra")
 theme_override_font_sizes/normal_font_size = 18
 bbcode_enabled = true
-text = "Rhythia [font_size=12][color=ffffffa0]early-26feb22"
+text = "Nebula [font_size=12][color=ffffffa0]1.1 (early-26feb22)"
 shortcut_keys_enabled = false
 vertical_alignment = 1
 
@@ -1681,8 +1736,7 @@ alignment = 1
 [node name="Home" type="Button" parent="TopBar/MenuButtons" unique_id=1813963162]
 layout_mode = 2
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 18
-disabled = true
+theme_override_font_sizes/font_size = 16
 text = "Home"
 flat = true
 
@@ -1753,11 +1807,11 @@ grow_vertical = 2
 mouse_filter = 1
 flat = true
 script = ExtResource("44_ybca7")
-Link = "https://discord.gg/kaFPWkfZeS"
+Link = "https://discord.gg/KQNscSrbkP"
 
 [node name="JukeboxPanel" type="Panel" parent="." unique_id=1253575]
 clip_contents = true
-anchors_preset = -1
+anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -1796,6 +1850,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_engjn")
 script = ExtResource("27_hl5e0")
 MinFreq = 0
 MaxFreq = 6000
+BarColor = Color(0.6367873, 0.00030149103, 0.63678306, 1)
 BarMinSize = 1.0
 Align = 1.0
 
