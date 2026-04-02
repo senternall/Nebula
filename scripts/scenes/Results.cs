@@ -36,7 +36,7 @@ public partial class Results : BaseScene
 		holder.GetNode<Label>("Status").Text = LegacyRunner.CurrentAttempt.IsReplay ? LegacyRunner.CurrentAttempt.Replays[0].Status : LegacyRunner.CurrentAttempt.Alive ? (LegacyRunner.CurrentAttempt.Qualifies ? "PASSED" : "DISQUALIFIED") : "FAILED";
 		holder.GetNode<Label>("Speed").Text = $"{LegacyRunner.CurrentAttempt.Speed.ToString().PadDecimals(2)}";
 		var time = TimeSpan.FromMilliseconds(LegacyRunner.CurrentAttempt.StartFrom);
-		var time1 = TimeSpan.FromMilliseconds(LegacyRunner.CurrentAttempt.DeathTime);
+		var time1 = TimeSpan.FromMilliseconds(LegacyRunner.CurrentAttempt.Progress);
 		holder.GetNode<Label>("times").Text = $"{(int)time.TotalMinutes}:{time.Seconds:D2} - {(int)time1.TotalMinutes}:{time1.Seconds:D2}";
 
 		HBoxContainer modifiersContainer = holder.GetNode("Modifiers").GetNode<HBoxContainer>("HBoxContainer");

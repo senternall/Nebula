@@ -261,7 +261,8 @@ theme = ExtResource("4_4d08m")
 theme_override_constants/paragraph_separation = 4
 bbcode_enabled = true
 text = "[outline_size=2][font_size=24]{0}
-[color={1}]{2} [font_size=16][color=909096]by {3}"
+[color={1}]{2}
+[font_size=16][color=909096]by {3}"
 
 [node name="Buttons" type="HBoxContainer" parent="Info/ScrollContainer/Holder/Subholder" unique_id=1191092010]
 custom_minimum_size = Vector2(0, 40)
