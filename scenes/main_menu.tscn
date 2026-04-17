@@ -447,7 +447,7 @@ layout_mode = 2
 
 [node name="Header" type="Label" parent="Menus/Home/News/VBoxContainer" unique_id=1350479761]
 layout_mode = 2
-text = "1.1.2 (early-26feb22)"
+text = "1.1.3 (early-26feb22)"
 label_settings = SubResource("LabelSettings_0uejd")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -462,10 +462,7 @@ theme_override_constants/paragraph_separation = 6
 theme_override_fonts/normal_font = ExtResource("7_6h3lr")
 bbcode_enabled = true
 text = " [font_size=28][b]Fixes[/b][font_size=20]
-  * made hit notes show up as \"X,XXX\" instead of \"XXXX\" to match sum of notes
- * made the github button redirect you to nebula github page instead of rhythia one
- [font_size=28][b]Changes[/b][font_size=20]
- * Returned to old fade out (half ghost) for more consistency with nightly and ss
+  * constant \"click to update\" should be gone
  [font_size=28][b]Notes[/b][font_size=20]
   - change your skin to [NEBULA] in the settings menu for the best experience.
 
@@ -1715,7 +1712,7 @@ grow_vertical = 2
 theme_override_fonts/normal_font = ExtResource("19_c6nra")
 theme_override_font_sizes/normal_font_size = 18
 bbcode_enabled = true
-text = "Nebula [font_size=12][color=ffffffa0]1.1.2 (early-26feb22)"
+text = "Nebula [font_size=12][color=ffffffa0]1.1.3 (early-26feb22)"
 shortcut_keys_enabled = false
 vertical_alignment = 1
 
