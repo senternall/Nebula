@@ -463,6 +463,7 @@ theme_override_fonts/normal_font = ExtResource("7_6h3lr")
 bbcode_enabled = true
 text = " [font_size=28][b]Fixes[/b][font_size=20]
   * made hit notes show up as \"X,XXX\" instead of \"XXXX\" to match sum of notes
+ * made the github button redirect you to nebula github page instead of rhythia one
  [font_size=28][b]Changes[/b][font_size=20]
  * Returned to old fade out (half ghost) for more consistency with nightly and ss
  [font_size=28][b]Notes[/b][font_size=20]
@@ -1783,7 +1784,7 @@ grow_vertical = 2
 mouse_filter = 1
 flat = true
 script = ExtResource("44_ybca7")
-Link = "https://github.com/Rhythia"
+Link = "https://github.com/senternall/Nebula"
 
 [node name="Discord" type="TextureButton" parent="TopBar/LinkButtons" unique_id=36147158]
 layout_mode = 2
