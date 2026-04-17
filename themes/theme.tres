@@ -232,6 +232,7 @@ border_color = Color(1, 1, 1, 0.12549)
 [resource]
 default_font = ExtResource("5_vsup1")
 Button/constants/icon_max_width = 18
+Button/fonts/font = ExtResource("5_vsup1")
 Button/styles/disabled = SubResource("StyleBoxFlat_rucdj")
 Button/styles/focus = SubResource("StyleBoxEmpty_yw8fc")
 Button/styles/hover = SubResource("StyleBoxFlat_8gf3l")

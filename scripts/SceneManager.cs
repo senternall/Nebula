@@ -32,6 +32,8 @@ public partial class SceneManager : Node
 	{
 		backgroundContainer = GetNode<SubViewportContainer>("Background");
 		backgroundViewport = backgroundContainer.GetNode<SubViewport>("SubViewport");
+		GD.Print($"RUNTIME VERSION: {Releases.GetCurrentVersion}");
+		GD.Print($"EXECUTABLE PATH: {OS.GetExecutablePath()}");
 
 		Load("res://scenes/loading.tscn");
 	}
