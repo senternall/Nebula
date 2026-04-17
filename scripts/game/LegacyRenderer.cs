@@ -41,8 +41,8 @@ public partial class LegacyRenderer : MultiMeshInstance3D
 			}
 			else if (fadeOut)
 			{
-				alpha -= (ad - depth) / (ad + (float)Constants.HIT_WINDOW * ar / 1000);
-				//alpha *= Math.Min(1, (depth + hitWindowDepth) / (ad + hitWindowDepth));
+				//alpha -= (ad - depth) / (ad + (float)Constants.HIT_WINDOW * ar / 1000);
+				alpha *= Math.Min(1, (depth + hitWindowDepth) / (ad + hitWindowDepth));
 			}
 
 			if (!pushback && note.Millisecond - LegacyRunner.CurrentAttempt.Progress <= 0)

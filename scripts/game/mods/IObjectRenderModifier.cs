@@ -1,14 +1,14 @@
-﻿using Godot;
+using Godot;
 using System;
 
 /// <summary>
 /// Modifies the timeline object rendering
 /// </summary>
 public interface IObjectRenderModifier<T> : IMod
-    where T : ITimelineObject
+	where T : ITimelineObject
 {
-    /// <summary>
-    /// Modifies the rendering of <see cref="ITimelineObject"/> for the <see cref="IObjectRenderModifier{T}"/>
-    /// </summary>
-    void ModifyRenderObject(T obj, float depth, Attempt attempt);
+	/// <summary>
+	/// Modifies the rendering of <see cref="ITimelineObject"/> for the <see cref="IObjectRenderModifier{T}"/>
+	/// </summary>
+	void ModifyRenderObject(T obj, float depth, Attempt attempt);
 }

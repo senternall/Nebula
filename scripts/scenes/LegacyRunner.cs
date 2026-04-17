@@ -290,7 +290,7 @@ public partial class LegacyRunner : BaseScene
 
 			scoreLabel.Text = Util.String.PadMagnitude(Score.ToString());
 			multiplierLabel.Text = $"{ComboMultiplier}x";
-			hitsLabel.Text = $"{Hits}";
+			hitsLabel.Text = Util.String.PadMagnitude(Hits.ToString());
 			hitsLabel.LabelSettings.FontColor = Color.Color8(255, 255, 255, 255);
 			sumLabel.Text = Util.String.PadMagnitude(Sum.ToString());
 			accuracyLabel.Text = $"{(Hits + Misses == 0 ? "100.00" : Accuracy.ToString().PadDecimals(2))}%";
