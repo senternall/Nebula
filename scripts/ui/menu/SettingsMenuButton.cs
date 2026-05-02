@@ -1,10 +1,10 @@
-using Godot;
 using System;
+using Godot;
 
 public partial class SettingsMenuButton : Button
 {
-	public override void _Pressed()
-	{
-		SettingsManager.ShowMenu(true);
-	}
+    public override void _Pressed()
+    {
+        SettingsMenu.Instance.ShowMenu();
+    }
 }

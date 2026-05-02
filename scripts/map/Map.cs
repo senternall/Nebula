@@ -97,17 +97,17 @@ public partial class Map : RefCounted
 	{
 		string path = $"{MapUtil.MapsCacheFolder}/{Name}";
 
-		if (cover == DefaultCover && File.Exists($"{path}/cover.png"))
-	{
-		byte[] coverBuffer = File.ReadAllBytes($"{path}/cover.png");
-		Image image = Util.Misc.LoadImageFromBuffer(coverBuffer);
-		if (image != null)
-			cover = ImageTexture.CreateFromImage(image);
-		}
+        if (cover == DefaultCover && File.Exists($"{path}/cover.png"))
+        {
+            byte[] coverBuffer = File.ReadAllBytes($"{path}/cover.png");
+            Image image = Util.Misc.LoadImageFromBuffer(coverBuffer);
+            if (image != null)
+                cover = ImageTexture.CreateFromImage(image);
+        }
 
-	return cover;
-}
-	public Map() { }
+        return cover;
+    }
+    public Map() { }
 
 	public Map(string filePath, Note[] data = null, string id = null, string artist = "", string title = "", float rating = 0, string[] mappers = null, int difficulty = 0, string difficultyName = null, int? length = null, byte[] audioBuffer = null, byte[] coverBuffer = null, byte[] videoBuffer = null, bool ephemeral = false, string artistLink = "", string artistPlatform = "")
 	{

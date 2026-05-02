@@ -1,5 +1,5 @@
-using Godot;
 using System;
+using Godot;
 
 public partial class ModifierButton : Button
 {
@@ -23,11 +23,11 @@ public partial class ModifierButton : Button
 	{
 		base._Pressed();
 
-		if (Lobby.Modifiers.TryGetValue(Modifier, out bool active))
-		{
-			Lobby.SetModifier(Modifier, !active);
-		}
-	}
+        if (Lobby.Modifiers.TryGetValue(Modifier, out bool active))
+        {
+            Lobby.SetModifier(Modifier, !active);
+        }
+    }
 
 	private void updateState(Godot.Collections.Dictionary<string, bool> mods)
 	{

@@ -1,6 +1,6 @@
-using Godot;
 using System;
 using System.IO;
+using Godot;
 
 public partial class MapInfoContainer : Panel, ISkinnable
 {
@@ -163,19 +163,22 @@ public partial class MapInfoContainer : Panel, ISkinnable
 
 		Lobby.Instance.SpeedChanged += displaySpeed;
 
-		void applySpeed()
-		{
-			double value = ((speedEdit.Text == "" || !speedEdit.Text.IsValidFloat()) ? speedEdit.PlaceholderText : speedEdit.Text).ToFloat();
+        void applySpeed()
+        {
+            if (!double.TryParse(speedEdit.Text, System.Globalization.CultureInfo.InvariantCulture, out double value))
+            {
+                value = 100;
+            }
 
 			value = Math.Clamp(value, 25, 1000) / 100;
 
 			Lobby.SetSpeed(value);
 
-			if (SoundManager.Map.Name != Map.Name)
-			{
-				SoundManager.PlayJukebox(Map);
-			}
-		}
+            if (SoundManager.Map?.Name == Map.Name && SoundManager.Song.Playing)
+            {
+                SoundManager.Song.PitchScale = (float)Lobby.Speed;
+            }
+        }
 
 		speedEdit.FocusExited += applySpeed;
 		speedEdit.TextSubmitted += (_) => { applySpeed(); };
@@ -207,23 +210,22 @@ public partial class MapInfoContainer : Panel, ISkinnable
 		{
 			input ??= startFromEdit.Text == "" ? startFromEdit.PlaceholderText : startFromEdit.Text;
 
-			double value = 0;
-			string[] split = input.Split(":");
-			split.Reverse();
+            double value = 0;
+            string[] split = input.Split(":");
+
+            split.Reverse();
 
 			if (split.Length > 1 && split[1].IsValidFloat())
 			{
 				value += 60 * split[1].ToFloat();
 			}
 
-			if (split[0].IsValidFloat())
-			{
-				float inputValue = split[0].ToFloat();
-
-				if (inputValue < 1)
-				{
-					inputValue *= Map.Length / 1000;
-				}
+            if (double.TryParse(split[0], System.Globalization.CultureInfo.InvariantCulture, out double inputValue))
+            {
+                if (inputValue < 1)
+                {
+                    inputValue *= Map.Length / 1000;
+                }
 
 				value += inputValue;
 			}
@@ -232,27 +234,27 @@ public partial class MapInfoContainer : Panel, ISkinnable
 
 			Lobby.SetStartFrom(value);
 
-			if (SoundManager.Map.Name != Map.Name)
-			{
-				SoundManager.PlayJukebox(Map);
-			}
+            if (SoundManager.Map?.Name != Map.Name)
+            {
+                SoundManager.StartMapSelectionPlayback(Map);
+            }
 
-			if (seek)
-			{
-				SoundManager.Song.Play((float)Lobby.StartFrom / 1000);
-			}
-		}
+            if (seek && SoundManager.Song.Playing)
+            {
+                SoundManager.Song.Seek((float)Lobby.StartFrom / 1000);
+            }
+        }
 
-		startFromEdit.FocusExited += () => { applyStartFrom(); };
-		startFromEdit.TextSubmitted += (_) => { applyStartFrom(); };
-		startFromSlider.ValueChanged += value =>
-		{
-			applyStartFrom((Math.Round(startFromSlider.Value * Map.Length) / 1000).ToString(), false);
-		};
-		startFromSlider.DragEnded += changed =>
-		{
-			if (changed) { applyStartFrom(); }
-		};
+        startFromEdit.FocusExited += () => { applyStartFrom(); };
+        startFromEdit.TextSubmitted += (_) => { applyStartFrom(); };
+        startFromSlider.ValueChanged += value =>
+        {
+            applyStartFrom((Math.Round(value * Map.Length) / 1000).ToString("F2", new System.Globalization.CultureInfo("en-US")), false);
+        };
+        startFromSlider.DragEnded += changed =>
+        {
+            if (changed) { applyStartFrom(); }
+        };
 
 		//
 
@@ -282,10 +284,10 @@ public partial class MapInfoContainer : Panel, ISkinnable
 		UpdateSkin();
 	}
 
-	public override void _Process(double delta)
-	{
-		outlineMaterial.SetShaderParameter("cursor_position", GetViewport().GetMousePosition());
-	}
+    public override void _Process(double delta)
+    {
+        outlineMaterial?.SetShaderParameter("cursor_position", GetViewport().GetMousePosition());
+    }
 
 	public override void _Input(InputEvent @event)
 	{
@@ -309,12 +311,14 @@ public partial class MapInfoContainer : Panel, ISkinnable
 		}
 	}
 
-	public void Setup(Map map)
-	{
-		if (Name == map.Name)
-		{
-			return;
-		}
+    public void Setup(Map map)
+    {
+        if (map == null) return;
+
+        if (Name == map.Name)
+        {
+            return;
+        }
 
 		Map = map;
 		Name = map.Name;
@@ -344,12 +348,13 @@ public partial class MapInfoContainer : Panel, ISkinnable
 
 		// Info
 
-		mainLabel.Text = string.Format(mainLabelFormat, map.PrettyTitle, Constants.DIFFICULTY_COLORS[map.Difficulty].ToHtml(), map.DifficultyName, map.PrettyMappers);
-		extraLabel.Text = string.Format(extraLabelFormat, Util.String.FormatTime(map.Length / 1000), map.Notes.Length, map.Name);
-		coverBackground.SelfModulate = Constants.DIFFICULTY_COLORS[map.Difficulty];
-		cover.Texture = map.Cover;
-		favoriteButton.TooltipText = map.Favorite ? "Unfavorite" : "Favorite";
-		favoriteButton.Icon = map.Favorite ? SkinManager.Instance.Skin.UnfavoriteButtonImage : SkinManager.Instance.Skin.FavoriteButtonImage;
+        int clampedDifficulty = Math.Clamp(map.Difficulty, 0, Constants.DIFFICULTY_COLORS.Length - 1);
+        mainLabel.Text = string.Format(mainLabelFormat, map.PrettyTitle, Constants.DIFFICULTY_COLORS[clampedDifficulty].ToHtml(), map.DifficultyName, map.PrettyMappers);
+        extraLabel.Text = string.Format(extraLabelFormat, Util.String.FormatTime(map.Length / 1000), map.Notes.Length, map.Name);
+        coverBackground.SelfModulate = Constants.DIFFICULTY_COLORS[clampedDifficulty];
+        cover.Texture = map.Cover;
+        favoriteButton.TooltipText = map.Favorite ? "Unfavorite" : "Favorite";
+        favoriteButton.Icon = map.Favorite ? SkinManager.Instance.Skin.UnfavoriteButtonImage : SkinManager.Instance.Skin.FavoriteButtonImage;
 
 		artistLink.Visible = map.ArtistLink != "";
 		artistLink.Text = string.Format(artistLinkFormat, map.ArtistPlatform);
