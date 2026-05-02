@@ -14,14 +14,11 @@ public partial class SettingsManager : Node
 
 	public static bool HideNotifications = false;
 
-	public static ColorRect Menu;
+    public static SettingsMenu Menu;
 
 	public static SettingsManager Instance { get; private set; }
 
-	public SettingsProfile Settings = new SettingsProfile();
-
-	[Signal]
-	public delegate void MenuToggledEventHandler(bool shown);
+    public SettingsProfile Settings = new SettingsProfile();
 
 	[Signal]
 	public delegate void SavedEventHandler();
@@ -33,22 +30,8 @@ public partial class SettingsManager : Node
 	{
 		Instance = this;
 
-		Menu = SceneManager.Instance.GetNode<ColorRect>("Settings");
-
-		HideMenu();
-	}
-
-	public static void ShowMenu(bool show = true)
-	{
-		Shown = show;
-
-		Instance.EmitSignal(SignalName.MenuToggled, Shown);
-	}
-
-	public static void HideMenu()
-	{
-		ShowMenu(false);
-	}
+        Menu = SceneManager.Instance.GetNode<SettingsMenu>("Settings");
+    }
 
 	public static void Save(string profile = null)
 	{
@@ -87,11 +70,11 @@ public partial class SettingsManager : Node
 			ToastNotification.Notify($"Could not find skin {Instance.Settings.Skin.Value}", 1);
 		}
 
-		void addUserContentToSettingsList(SettingsItem<string> settingsItem, IEnumerable<string> options)
-		{
-			foreach (string option in options)
-			{
-				string name = option.GetFile().GetBaseName();
+        static void addUserContentToSettingsList(SettingsItem<string> settingsItem, IEnumerable<string> options)
+        {
+            foreach (string option in options)
+            {
+                string name = option.GetFile().GetBaseName();
 
 				if (settingsItem.List.Values.IndexOf(name) == -1)
 				{
@@ -143,9 +126,9 @@ public partial class SettingsManager : Node
 
 		SettingsProfile defaults = new SettingsProfile();
 
-		foreach(var property in typeof(SettingsProfile).GetProperties())
-		{
-			if (!typeof(ISettingsItem).IsAssignableFrom(property.PropertyType)) continue;
+        foreach (var property in typeof(SettingsProfile).GetProperties())
+        {
+            if (!typeof(ISettingsItem).IsAssignableFrom(property.PropertyType)) continue;
 
 			ISettingsItem current = (ISettingsItem)property.GetValue(Instance.Settings);
 			ISettingsItem defs = (ISettingsItem)property.GetValue(defaults);

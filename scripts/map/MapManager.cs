@@ -74,9 +74,9 @@ public partial class MapManager : Node
 		Update(map);
 	}
 
-	public static void RemoveVideo(Map map)
-	{
-		Godot.FileAccess file = Godot.FileAccess.Open(map.FilePath, Godot.FileAccess.ModeFlags.Read);
+    public static void RemoveVideo(Map map)
+    {
+        _ = Godot.FileAccess.Open(map.FilePath, Godot.FileAccess.ModeFlags.Read);
 
 		map.VideoBuffer = null;
 
@@ -92,34 +92,38 @@ public partial class MapManager : Node
 		Update(map);
 	}
 
-	public static void Delete(Map map)
-	{
-		try
-		{
+    public static void Delete(Map map)
+    {
+        try
+        {
+            try
+            {
+                File.Delete(map.FilePath);
+            }
+            catch
+            {
+                if (File.Exists(map.FilePath))
+                {
+                    Logger.Error("Unable to delete map");
+                    return;
+                }
+            }
 
-			try
-			{
-				File.Delete(map.FilePath);
-			}
-			catch
-			{
-				if (File.Exists(map.FilePath))
-				{
+            MapCache.RemoveMap(map);
+            Maps.RemoveAll(x => x.Id == map.Id);
 
-					Logger.Error("Unable to delete map");
-				}
-			}
 
-			MapCache.RemoveMap(map);
-			Maps.Remove(map);
-
-			MapDeleted?.Invoke(map);
-		}
-		catch (Exception e)
-		{
-			Logger.Error(e.Message);
-		}
-	}
+            Callable.From(() =>
+            {
+                _ = ToastNotification.Notify($"Deleted {map.PrettyTitle}!");
+            }).CallDeferred();
+            Callable.From(() => MapDeleted?.Invoke(map)).CallDeferred();
+        }
+        catch (Exception e)
+        {
+            Logger.Error(e.Message);
+        }
+    }
 
 	public static string MapsFolder => $"{Constants.USER_FOLDER}/maps";
 }

@@ -1,18 +1,18 @@
-using Godot;
 using System;
 using System.IO;
+using Godot;
 
 public partial class MapButton : Control, ISkinnable
 {
-	/// <summary>
-	/// Parsed map reference
-	/// </summary>
-	public Map Map;
+    /// <summary>
+    /// Parsed map reference
+    /// </summary>
+    public Map Map;
 
-	/// <summary>
-	/// Index within the full map list
-	/// </summary>
-	public int ListIndex = 0;
+    /// <summary>
+    /// Index within the full map list
+    /// </summary>
+    public int ListIndex = 0;
 
 	/// <summary>
 	/// Minimum Y size (configure in MapList properties)
@@ -24,10 +24,10 @@ public partial class MapButton : Control, ISkinnable
 	/// </summary>
 	public float HoveredSizeOffset = 10;
 
-	/// <summary>
-	/// Additional Y size when selected (configure in MapList properties)
-	/// </summary>
-	public float SelectedSizeOffset = 20;
+    /// <summary>
+    /// Additional Y size when selected (configure in MapList properties)
+    /// </summary>
+    public float SelectedSizeOffset = 20;
 
 	/// <summary>
 	/// Total Y size added on top of minimum size, equivalent to HoverSizeOffset + SelectedSizeOffset
@@ -53,25 +53,25 @@ public partial class MapButton : Control, ISkinnable
 	public Button Button;
 	public ShaderMaterial OutlineShader;
 
-	private float targetOutlineFill = 0;
+    private float targetOutlineFill = 0;
 
-	public override void _Ready()
-	{
-		Holder = GetNode<Panel>("Holder");
-		Button = Holder.GetNode<Button>("Button");
-		Title = Holder.GetNode<Label>("Title");
-		Cover = Holder.GetNode<TextureRect>("Cover");
-		Favorited = Holder.GetNode<TextureRect>("Favorited");
-		Favorited.Texture = (Texture2D)Favorited.Texture.Duplicate();
+    public override void _Ready()
+    {
+        Holder = GetNode<Panel>("Holder");
+        Button = Holder.GetNode<Button>("Button");
+        Title = Holder.GetNode<Label>("Title");
+        Cover = Holder.GetNode<TextureRect>("Cover");
+        Favorited = Holder.GetNode<TextureRect>("Favorited");
+        Favorited.Texture = (Texture2D)Favorited.Texture.Duplicate();
 
-		Panel outline = Holder.GetNode<Panel>("Outline");
+        Panel outline = Holder.GetNode<Panel>("Outline");
 
 		OutlineShader = (ShaderMaterial)outline.Material.Duplicate();
 		outline.Material = OutlineShader;
 
-		Button.MouseEntered += () => { Hover(true); };
-		Button.MouseExited += () => { Hover(false); };
-		Button.Pressed += () => { EmitSignal(SignalName.Pressed); };
+        Button.MouseEntered += () => { Hover(true); };
+        Button.MouseExited += () => { Hover(false); };
+        Button.Pressed += () => { EmitSignal(SignalName.Pressed); };
 
 		SkinManager.Instance.Loaded += UpdateSkin;
 	}
@@ -89,38 +89,38 @@ public partial class MapButton : Control, ISkinnable
 		OutlineShader.SetShaderParameter("light_position", LightPosition);
 	}
 
-	public virtual void Hover(bool hover)
-	{
-		Hovered = hover;
-		SizeOffset = computeSizeOffset();
+    public virtual void Hover(bool hover)
+    {
+        Hovered = hover;
+        SizeOffset = computeSizeOffset();
 
 		EmitSignal(SignalName.MouseHovered, hover);
 
 		CreateTween().SetTrans(Tween.TransitionType.Quad).TweenProperty(Holder, "self_modulate", Hovered ? Color.Color8(26, 0, 26, 224) : Color.Color8(0, 0, 0, 224), 0.15);
 	}
 
-	public virtual void Select(bool select = true)
-	{
-		Selected = select;
-		SizeOffset = computeSizeOffset();
+    public virtual void Select(bool select = true)
+    {
+        Selected = select;
+        SizeOffset = computeSizeOffset();
 
 		CreateTween().SetTrans(Tween.TransitionType.Quad).TweenProperty(Cover, "modulate", Color.Color8(255, 255, 255, (byte)(Selected ? 255 : 128)), 0.1);
 	}
 
-	public void Deselect()
-	{
-		Select(false);
-	}
+    public void Deselect()
+    {
+        Select(false);
+    }
 
-	public virtual void UpdateInfo(Map map, bool selected = false)
-	{
-		Map = map;
-		Name = map.Name;
+    public virtual void UpdateInfo(Map map, bool selected = false)
+    {
+        Map = map;
+        Name = map.Name;
 
-		Title.Text = map.PrettyTitle;
-		Favorited.Visible = map.Favorite;
-		Cover.Texture = map.Cover;
-		Favorited.SelfModulate = Constants.DIFFICULTY_COLORS[map.Difficulty];
+        Title.Text = map.PrettyTitle;
+        Favorited.Visible = map.Favorite;
+        Cover.Texture = map.Cover;
+        Favorited.SelfModulate = Constants.DIFFICULTY_COLORS[Math.Clamp(map.Difficulty, 0, Constants.DIFFICULTY_COLORS.Length - 1)];
 
 		if (selected)
 		{
@@ -129,25 +129,25 @@ public partial class MapButton : Control, ISkinnable
 		}
 	}
 
-	public void UpdateOutline(float targetFill, float fill = -1)
-	{
-		targetOutlineFill = targetFill;
+    public void UpdateOutline(float targetFill, float fill = -1)
+    {
+        targetOutlineFill = targetFill;
 
-		if (fill != -1)
-		{
-			OutlineFill = fill;
-		}
-	}
+        if (fill != -1)
+        {
+            OutlineFill = fill;
+        }
+    }
 
-	public virtual void UpdateSkin(SkinProfile skin = null)
-	{
-		skin ??= SkinManager.Instance.Skin;
+    public virtual void UpdateSkin(SkinProfile skin = null)
+    {
+        skin ??= SkinManager.Instance.Skin;
 
 		Favorited.Texture = skin.FavoriteImage;
 	}
 
-	private float computeSizeOffset()
-	{
-		return (Hovered ? HoveredSizeOffset : 0) + (Selected ? SelectedSizeOffset : 0);
-	}
+    private float computeSizeOffset()
+    {
+        return (Hovered ? HoveredSizeOffset : 0) + (Selected ? SelectedSizeOffset : 0);
+    }
 }

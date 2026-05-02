@@ -61,8 +61,9 @@ public partial class SceneManager : Node
 			outTween.TweenProperty(Scene.Transition, "self_modulate", Color.FromHtml("ffffffff"), skipTransition ? 0 : 0.25);
 		}
 
-		outTween.TweenCallback(Callable.From(() => {
-			removeScene(Scene);
+        outTween.TweenCallback(Callable.From(() =>
+        {
+            removeScene(Scene);
 
 			activeScenePath = path;
 			Scene = newScene;

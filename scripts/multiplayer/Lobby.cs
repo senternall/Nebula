@@ -1,5 +1,5 @@
-using Godot;
 using System.Collections.Generic;
+using Godot;
 
 public partial class Lobby : Node
 {
@@ -16,20 +16,20 @@ public partial class Lobby : Node
 
 	public static double Speed = 1;
 
-	/// <summary>
-	/// Millisecond timestamp to start the map from
-	/// </summary>
-	public static double StartFrom = 0;
-	
-	public static Dictionary<string, bool> Modifiers = new()
-	{
-		["NoFail"] = false,
-		["Ghost"] = false,
-		["Spin"] = false,
-		["Flashlight"] = false,
-		["Chaos"] = false,
-		["HardRock"] = false
-	};
+    /// <summary>
+    /// Millisecond timestamp to start the map from
+    /// </summary>
+    public static double StartFrom = 0;
+
+    public static Dictionary<string, bool> Modifiers = new()
+    {
+        ["NoFail"] = false,
+        ["Ghost"] = false,
+        ["Spin"] = false,
+        ["Flashlight"] = false,
+        ["Chaos"] = false,
+        ["HardRock"] = false
+    };
 
 	[Signal]
 	public delegate void AllReadyEventHandler();
@@ -50,15 +50,16 @@ public partial class Lobby : Node
 	{
 		Instance = this;
 
-		MapManager.Selected.ValueChanged += (_, _) => {
-			var map = MapManager.Selected.Value;
-			
-			if (Map == null || Map.Name != map.Name)
-			{
-				SetMap(map);
-			}
-		};
-	}
+        MapManager.Selected.ValueChanged += (_, _) =>
+        {
+            var map = MapManager.Selected.Value;
+
+            if (Map == null || Map.Name != map.Name)
+            {
+                SetMap(map);
+            }
+        };
+    }
 
 	public static void Enter()
 	{
@@ -105,9 +106,11 @@ public partial class Lobby : Node
 		Players.Remove(player);
 	}
 
-	public static void SetMap(Map map)
-	{
-		Map = map;
+    public static void SetMap(Map map)
+    {
+        Map = map;
+
+        SetStartFrom(0);
 
 		Instance.EmitSignal(SignalName.MapChanged, Map);
 	}

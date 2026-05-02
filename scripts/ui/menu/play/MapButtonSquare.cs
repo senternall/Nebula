@@ -1,5 +1,5 @@
-using Godot;
 using System;
+using Godot;
 
 public partial class MapButtonSquare : MapButton
 {
@@ -10,9 +10,9 @@ public partial class MapButtonSquare : MapButton
 	private Label difficulty;
 	private TextureRect coverBackground;
 
-	public override void _Ready()
-	{
-		base._Ready();
+    public override void _Ready()
+    {
+        base._Ready();
 
 		difficulty = Holder.GetNode<Label>("Difficulty");
 		difficulty.LabelSettings = difficulty.LabelSettings.Duplicate() as LabelSettings;
@@ -69,9 +69,9 @@ public partial class MapButtonSquare : MapButton
 		coverBackground.Texture = skin.MapListGridCoverBackgroundImage;
 	}
 
-	private void updateFocus()
-	{
-		Cover.Modulate = Color.Color8(255, 255, 255, (byte)(Hovered || Selected ? 255 : 128));
-		OutlineShader.SetShaderParameter("outline_color", Selected ? selectColor : Hovered ? hoverColor : idleColor);
-	}
+    private void updateFocus()
+    {
+        Cover.Modulate = Color.Color8(255, 255, 255, (byte)(Hovered || Selected ? 255 : 128));
+        OutlineShader.SetShaderParameter("outline_color", Selected ? selectColor : Hovered ? hoverColor : idleColor);
+    }
 }
