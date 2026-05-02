@@ -1,38 +1,42 @@
 using Godot;
+using System;
+using System.Collections.Generic;
 
 namespace Spaces;
 
 public partial class Squircles : BaseSpace
 {
-    private CpuParticles3D particlesNear;
-    private CpuParticles3D particlesFar;
+	private WorldEnvironment worldEnvironment;
+	private CpuParticles3D particlesNear;
+	private CpuParticles3D particlesFar;
 
 	private Color defaultEnvironmentColor;
 	private Color defaultParticleColor;
 
-    public override void _Ready()
-    {
-        base._Ready();
+	public override void _Ready()
+	{
+		base._Ready();
 
-        particlesNear = GetNode<CpuParticles3D>("ParticlesNear");
-        particlesFar = GetNode<CpuParticles3D>("ParticlesFar");
+		worldEnvironment = GetNode<WorldEnvironment>("WorldEnvironment");
+		particlesNear = GetNode<CpuParticles3D>("ParticlesNear");
+		particlesFar = GetNode<CpuParticles3D>("ParticlesFar");
 
-        defaultEnvironmentColor = WorldEnvironment.Environment.BackgroundColor;
-        defaultParticleColor = particlesNear.Color;
-    }
+		defaultEnvironmentColor = worldEnvironment.Environment.BackgroundColor;
+		defaultParticleColor = particlesNear.Color;
+	}
 
 	public override void _Process(double delta)
 	{
 		base._Process(delta);
 
-        if (Playing)
-        {
-            updateColor(NoteHitColor);
-        }
-        else
-        {
-            Viewport viewport = GetViewport();
-            Vector2 centerOffset = viewport.GetMousePosition() - viewport.GetVisibleRect().Size / 2;
+		if (Playing)
+		{
+			updateColor(NoteHitColor);
+		}
+		else
+		{
+			Viewport viewport = GetViewport();
+			Vector2 centerOffset = viewport.GetMousePosition() - viewport.GetVisibleRect().Size / 2;
 
 			Camera.Position = new Vector3(centerOffset.X, centerOffset.Y, 0) / 40000;
 		}
@@ -83,8 +87,8 @@ public partial class Squircles : BaseSpace
 	{
 		Color darkened = color.Darkened(0.9f);
 
-        WorldEnvironment.Environment.BackgroundColor = Playing ? darkened : (Cover != null ? darkened : defaultEnvironmentColor);
-        particlesNear.Color = color.Lightened(0.1f);
-        particlesFar.Color = particlesNear.Color;
-    }
+		worldEnvironment.Environment.BackgroundColor = Playing ? darkened : (Cover != null ? darkened : defaultEnvironmentColor);
+		particlesNear.Color = color.Lightened(0.1f);
+		particlesFar.Color = particlesNear.Color;
+	}
 }

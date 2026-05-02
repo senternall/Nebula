@@ -99,6 +99,8 @@ public partial class NoteRenderer : Renderer, IRenderer<Note>
 			return;
 		}
 
-        _ = (List<Note>)attempt.Objects[typeof(Note)];
-    }
+		var notes = (List<Note>)attempt.Objects[typeof(Note)];
+
+		
+	}
 }

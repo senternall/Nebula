@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.IO;
 using System.Security.Cryptography;
-using System.Text;
 using Godot;
 
 public struct Leaderboard
@@ -19,7 +18,10 @@ public struct Leaderboard
 	{
 		MapID = mapID;
 
-        Path ??= $"{Constants.USER_FOLDER}/pbs/{MapID}";
+		if (Path == null)
+		{
+			Path = $"{Constants.USER_FOLDER}/pbs/{MapID}";
+		}
 
 		byte[] bytes = [];
 
@@ -46,12 +48,12 @@ public struct Leaderboard
 			Reset();
 		}
 
-        if (Valid && FileBuffer.Get(32).Stringify() != SHA256.HashData(bytes).Stringify())
-        {
-            Logger.Log("Leaderboard file corrupted; invalid leaderboard hash");
-            Reset();
-        }
-    }
+		if (FileBuffer.Get(32).Stringify() != SHA256.HashData(bytes).Stringify())
+		{
+			Logger.Log("Leaderboard file corrupted; invalid leaderboard hash");
+			Reset();
+		}
+	}
 
 	public Leaderboard(string mapID, string path)
 	{
@@ -84,24 +86,22 @@ public struct Leaderboard
 
 		file.Store32(ScoreCount);
 
-        foreach (Score score in Scores)
-        {
-            ulong offset = file.GetPosition();
-            byte[] attemptIdBytes = Encoding.UTF8.GetBytes(score.AttemptID ?? string.Empty);
-            byte[] playerBytes = Encoding.UTF8.GetBytes(score.Player ?? string.Empty);
+		foreach (Score score in Scores)
+		{
+			ulong offset = file.GetPosition();
 
-            file.Store32(0);    // reserved for length
-            file.Store32((uint)attemptIdBytes.Length);
-            file.StoreBuffer(attemptIdBytes);
-            file.Store32((uint)playerBytes.Length);
-            file.StoreBuffer(playerBytes);
-            file.Store8((byte)(score.Qualifies ? 1 : 0));
-            file.Store64(score.Value);
-            file.StoreDouble(score.Accuracy);
-            file.StoreDouble(score.Time);
-            file.StoreDouble(score.Progress);
-            file.StoreDouble(score.MapLength);
-            file.StoreDouble(score.Speed);
+			file.Store32(0);    // reserved for length
+			file.Store32((uint)score.AttemptID.Length);
+			file.StoreString(score.AttemptID);
+			file.Store32((uint)score.Player.Length);
+			file.StoreString(score.Player);
+			file.Store8((byte)(score.Qualifies ? 1 : 0));
+			file.Store64(score.Value);
+			file.StoreDouble(score.Accuracy);
+			file.StoreDouble(score.Time);
+			file.StoreDouble(score.Progress);
+			file.StoreDouble(score.MapLength);
+			file.StoreDouble(score.Speed);
 
 			Godot.Collections.Dictionary<string, bool> modifiers = [];
 
@@ -110,11 +110,10 @@ public struct Leaderboard
 				modifiers[entry.Key] = entry.Value;
 			}
 
-            string json = Json.Stringify(modifiers);
-            byte[] modifiersBytes = Encoding.UTF8.GetBytes(json);
+			string json = Json.Stringify(modifiers);
 
-            file.Store32((uint)modifiersBytes.Length);
-            file.StoreBuffer(modifiersBytes);
+			file.Store32((uint)json.Length);
+			file.StoreString(json);
 
 			ulong end = file.GetPosition();
 
@@ -155,31 +154,22 @@ public struct Leaderboard
 		{
 			FileParser FileBuffer = new(buffer);
 
-            int attemptIdLength = (int)FileBuffer.GetUInt32();
-            // Logger.Log($"[Leaderboard] attemptId length={attemptIdLength}, remaining={FileBuffer.Length - FileBuffer.Pointer}");
-            AttemptID = FileBuffer.GetString(attemptIdLength);
+			AttemptID = FileBuffer.GetString((int)FileBuffer.GetUInt32());
+			Player = FileBuffer.GetString((int)FileBuffer.GetUInt32());
+			Qualifies = FileBuffer.GetBool();
+			Value = FileBuffer.GetUInt64();
+			Accuracy = FileBuffer.GetDouble();
+			Time = FileBuffer.GetDouble();
+			Progress = FileBuffer.GetDouble();
+			MapLength = FileBuffer.GetDouble();
+			Speed = FileBuffer.GetDouble();
+			Modifiers = [];
 
-            int playerLength = (int)FileBuffer.GetUInt32();
-            // Logger.Log($"[Leaderboard] player length={playerLength}, remaining={FileBuffer.Length - FileBuffer.Pointer}");
-            Player = FileBuffer.GetString(playerLength);
-
-            Qualifies = FileBuffer.GetBool();
-            Value = FileBuffer.GetUInt64();
-            Accuracy = FileBuffer.GetDouble();
-            Time = FileBuffer.GetDouble();
-            Progress = FileBuffer.GetDouble();
-            MapLength = FileBuffer.GetDouble();
-            Speed = FileBuffer.GetDouble();
-            Modifiers = [];
-
-            int modifiersLength = (int)FileBuffer.GetUInt32();
-            // Logger.Log($"[Leaderboard] modifiers length={modifiersLength}, remaining={FileBuffer.Length - FileBuffer.Pointer}");
-
-            foreach (KeyValuePair<string, bool> entry in (Godot.Collections.Dictionary<string, bool>)Json.ParseString(FileBuffer.GetString(modifiersLength)))
-            {
-                Modifiers[entry.Key] = entry.Value;
-            }
-        }
+			foreach (KeyValuePair<string, bool> entry in (Godot.Collections.Dictionary<string, bool>)Json.ParseString(FileBuffer.GetString((int)FileBuffer.GetUInt32())))
+			{
+				Modifiers[entry.Key] = entry.Value;
+			}
+		}
 
 		public Score(string id, string player, bool qualifies, ulong value, double accuracy, double time, double progress, double mapLength, double speed, Dictionary<string, bool> modifiers)
 		{

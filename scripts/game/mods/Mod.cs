@@ -1,5 +1,5 @@
-using System;
 using Godot;
+using System;
 
 /// <summary>
 /// Base class for modifiers

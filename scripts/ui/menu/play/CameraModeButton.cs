@@ -1,5 +1,5 @@
-using System;
 using Godot;
+using System;
 
 // will be reworked when the legacyrunner is rewritten
 public partial class CameraModeButton : Button

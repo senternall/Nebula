@@ -1,5 +1,5 @@
-using System;
 using Godot;
+using System;
 
 public partial class Background : Panel, ISkinnable
 {
@@ -16,9 +16,9 @@ public partial class Background : Panel, ISkinnable
 		UpdateSkin();
 	}
 
-    public void UpdateSkin(SkinProfile skin = null)
-    {
-        skin ??= SkinManager.Instance.Skin;
+	public void UpdateSkin(SkinProfile skin = null)
+	{
+		skin ??= SkinManager.Instance.Skin;
 
 		tile.Texture = skin.BackgroundTileImage;
 		tileMaterial.Shader = skin.BackgroundTileShader;

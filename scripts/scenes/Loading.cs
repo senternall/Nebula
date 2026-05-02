@@ -1,7 +1,7 @@
+using Godot;
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Godot;
 using Updatum;
 
 public partial class Loading : BaseScene
@@ -41,21 +41,18 @@ public partial class Loading : BaseScene
 			Logger.Log($"Could not get latest release: {ex.Message}");
 		}
 
-        if (updateFound)
-        {
-            var popup = new OptionPopup("Update Found", "Would you like to download the new version?");
-            popup.AddOption("Update", Callable.From(updateStep));
-            popup.AddOption("Cancel", Callable.From(mapInitializeStep));
-
-            popup.Canceled += mapInitializeStep;
-
-            popup.Show();
-        }
-        else
-        {
-            mapInitializeStep();
-        }
-    }
+		if (updateFound)
+		{
+			var popup = new OptionPopup("Update Found", "Would you like to download the new version?");
+			popup.AddOption("Yes", Callable.From(updateStep));
+			popup.AddOption("No", Callable.From(mapInitializeStep));
+			popup.Show();
+		}
+		else
+		{
+			mapInitializeStep();
+		}
+	}
 
 	private void updateStep()
 	{
@@ -127,18 +124,18 @@ public partial class Loading : BaseScene
 		inTween.SetTrans(Tween.TransitionType.Sine);
 		inTween.TweenProperty(splashShift, "modulate", transparent, 2.5);
 
-        inTween.TweenCallback(Callable.From(() =>
-        {
-            if (MapManager.Initialized)
-            {
-                exit();
-            }
-            else
-            {
-                MapManager.MapsInitialized += _ => Callable.From(exit).CallDeferred();
-            }
-        }));
-    }
+		inTween.TweenCallback(Callable.From(() =>
+		{
+			if (MapManager.Initialized)
+			{
+				exit();
+			}
+			else
+			{
+				MapManager.MapsInitialized += _ => exit();
+			}
+		}));
+	}
 
 	private void updateDownloadBar(object _, PropertyChangedEventArgs @event)
 	{

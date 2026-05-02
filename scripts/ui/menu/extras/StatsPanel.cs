@@ -1,5 +1,5 @@
-using System;
 using Godot;
+using System;
 
 public partial class StatsPanel : ExtrasPanel
 {
@@ -10,8 +10,8 @@ public partial class StatsPanel : ExtrasPanel
         Update();
     }
 
-    public void Update()
-    {
-
-    }
+	public void Update()
+	{
+		
+	}
 }
