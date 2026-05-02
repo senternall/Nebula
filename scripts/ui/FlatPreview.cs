@@ -1,5 +1,6 @@
-using System;
 using Godot;
+using System;
+using System.Threading.Tasks;
 
 public partial class FlatPreview : Panel
 {
@@ -41,8 +42,6 @@ public partial class FlatPreview : Panel
 
     public override void _Process(double delta)
     {
-        if (Map == null) return;
-
         float alpha = (float)Math.Min(1, delta * 6);
 
         foreach (ColorRect tile in tiles)
@@ -54,7 +53,7 @@ public partial class FlatPreview : Panel
 
         if (UseSoundManagerStreamPlayer)
         {
-            if (SoundManager.Map == null || SoundManager.Map.Name != Map.Name)
+            if (SoundManager.Map.Name != Map.Name)
             {
                 return;
             }
@@ -69,14 +68,16 @@ public partial class FlatPreview : Panel
 
         if (Time < oldTime)
         {
-            for (int i = 0; i < Map.Notes.Length; i++)
-            {
-                if (Time < Map.Notes[i].Millisecond)
+            Task.Run(() => {
+                for (int i = 0; i < Map.Notes.Length; i++)
                 {
-                    lastPassedNote = i - 1;
-                    break;
+                    if (Time < Map.Notes[i].Millisecond)
+                    {
+                        lastPassedNote = i - 1;
+                        break;
+                    }
                 }
-            }
+            });
         }
 
         for (int i = Math.Clamp(lastPassedNote + 1, 0, Math.Max(0, Map.Notes.Length - 1)); i < Map.Notes.Length; i++)
@@ -98,17 +99,17 @@ public partial class FlatPreview : Panel
         }
     }
 
-    public void Setup(Map map, bool useSoundManagerStreamPlayer = false)
-    {
+	public void Setup(Map map, bool useSoundManagerStreamPlayer = false)
+	{
         if (Map != null && Map.Name == map.Name) { return; }
-
+        
         Map = map;
         UseSoundManagerStreamPlayer = useSoundManagerStreamPlayer;
         lastPassedNote = 0;
     }
 
-    public void Seek(double seek)
-    {
+	public void Seek(double seek)
+	{
         Time = seek;
     }
 }

@@ -8,211 +8,200 @@ using Godot;
 
 public partial class Rhythia : Node
 {
-    private static bool loaded = false;
+	private static bool loaded = false;
 
-    [Signal]
-    public delegate void FilesDroppedEventHandler(string[] files);
+	[Signal]
+	public delegate void FilesDroppedEventHandler(string[] files);
 
-    public static Rhythia Instance;
-    public static bool Quitting { get; private set; } = false;
+	public static Rhythia Instance;
+	public static bool Quitting { get; private set; } = false;
 
-    public override async void _Ready()
-    {
-        Instance = this;
+	public override async void _Ready()
+	{
+		Instance = this;
 
-        GetTree().AutoAcceptQuit = false;
+		GetTree().AutoAcceptQuit = false;
 
-        // Settings
+		// Settings
 
-        if (!File.Exists($"{Constants.USER_FOLDER}/profiles/default.json"))
-        {
-            SettingsManager.Save("default");
-        }
+		if (!File.Exists($"{Constants.USER_FOLDER}/profiles/default.json"))
+		{
+			SettingsManager.Save("default");
+		}
 
-        try
-        {
-            SettingsManager.Load();
-        }
-        catch (Exception exception)
-        {
-            Logger.Error(exception);
-            SettingsManager.Save();
-        }
+		try
+		{
+			SettingsManager.Load();
+		}
+		catch (Exception exception)
+		{
+			Logger.Error(exception);
+			SettingsManager.Save();
+		}
 
-        // Stats
+		// Stats
 
-        if (!File.Exists($"{Constants.USER_FOLDER}/stats"))
-        {
-            Logger.Log("Stats file not found");
-            File.WriteAllText($"{Constants.USER_FOLDER}/stats", "");
-            Stats.Save();
-        }
+		if (!File.Exists($"{Constants.USER_FOLDER}/stats"))
+		{
+			Logger.Log("Stats file not found");
+			File.WriteAllText($"{Constants.USER_FOLDER}/stats", "");
+			Stats.Save();
+		}
 
-        try
-        {
-            Stats.Load();
-        }
-        catch
-        {
-            Stats.GamePlaytime = 0;
-            Stats.TotalPlaytime = 0;
-            Stats.GamesOpened = 0;
-            Stats.TotalDistance = 0;
-            Stats.NotesHit = 0;
-            Stats.NotesMissed = 0;
-            Stats.HighestCombo = 0;
-            Stats.Attempts = 0;
-            Stats.Passes = 0;
-            Stats.FullCombos = 0;
-            Stats.HighestScore = 0;
-            Stats.TotalScore = 0;
-            Stats.RageQuits = 0;
-            Stats.PassAccuracies = [];
-            Stats.FavoriteMaps = [];
+		try
+		{
+			Stats.Load();
+		}
+		catch
+		{
+			Stats.GamePlaytime = 0;
+			Stats.TotalPlaytime = 0;
+			Stats.GamesOpened = 0;
+			Stats.TotalDistance = 0;
+			Stats.NotesHit = 0;
+			Stats.NotesMissed = 0;
+			Stats.HighestCombo = 0;
+			Stats.Attempts = 0;
+			Stats.Passes = 0;
+			Stats.FullCombos = 0;
+			Stats.HighestScore = 0;
+			Stats.TotalScore = 0;
+			Stats.RageQuits = 0;
+			Stats.PassAccuracies = [];
+			Stats.FavoriteMaps = [];
 
-            Stats.Save();
-        }
+			Stats.Save();
+		}
 
-        Stats.GamesOpened++;
+		Stats.GamesOpened++;
 
+		
+		// marking sspms for importing can be done with an one liner, kept the following block of code in case we need to loop over every valid map file for some reason
 
-        // marking sspms for importing can be done with an one liner, kept the following block of code in case we need to loop over every valid map file for some reason
+		// List<string> import = [];
+		// HashSet<string> validExtensions = new HashSet<string> { "phxm", "sspm", "txt" };
+		// var files = Directory.EnumerateFiles($"{Constants.USER_FOLDER}/maps", $"*.*", SearchOption.AllDirectories).Where(f => validExtensions.Contains(f.GetExtension().ToLower()));
 
-        // List<string> import = [];
-        // HashSet<string> validExtensions = new HashSet<string> { "phxm", "sspm", "txt" };
-        // var files = Directory.EnumerateFiles($"{Constants.USER_FOLDER}/maps", $"*.*", SearchOption.AllDirectories).Where(f => validExtensions.Contains(f.GetExtension().ToLower()));
+		// foreach (string file in files)
+		// {
+		//     string ext = file.GetExtension();
 
-        // foreach (string file in files)
-        // {
-        //     string ext = file.GetExtension();
+		//     if (ext != Constants.DEFAULT_MAP_EXT)
+		//     {
+		//         import.Add(file);
+		//     }
+		// }
 
-        //     if (ext != Constants.DEFAULT_MAP_EXT)
-        //     {
-        //         import.Add(file);
-        //     }
-        // }
+		var nonPhxmMaps = Directory.EnumerateFiles($"{Constants.USER_FOLDER}/maps", $"*.*", SearchOption.AllDirectories).Where(f => f.GetExtension().ToLower() == "sspm" || f.GetExtension().ToLower() == "txt");
+		await MapParser.BulkImport([.. nonPhxmMaps], notify: true);
+		
+		// delete after importing
+		foreach (string file in nonPhxmMaps)
+		{
+			File.Delete(file);
+		}
 
-        var nonPhxmMaps = Directory.EnumerateFiles($"{Constants.USER_FOLDER}/maps", $"*.*", SearchOption.AllDirectories).Where(f => f.GetExtension().ToLower() == "sspm" || f.GetExtension().ToLower() == "txt");
-        await MapParser.BulkImport([.. nonPhxmMaps], notify: true);
+		GetViewport().Connect("files_dropped", Callable.From((string[] files) => {
+			EmitSignal(SignalName.FilesDropped, files);
 
-        // delete after importing
-        foreach (string file in nonPhxmMaps)
-        {
-            File.Delete(file);
-        }
+			List<string> maps = [];
+			List<Replay> replays = [];
 
-        GetViewport().Connect("files_dropped", Callable.From((string[] files) =>
-        {
-            EmitSignal(SignalName.FilesDropped, files);
+			foreach (string file in files)
+			{
+				string ext = file.GetExtension();
 
-            List<string> maps = [];
-            List<Replay> replays = [];
+				if (MapParser.IsValidExt(ext))
+				{
+					maps.Add(file);
+				}
+				else
+				{
+					switch (ext)
+					{
+						case "phxr":
+							Replay replay = new(file);
 
-            foreach (string file in files)
-            {
-                string ext = file.GetExtension();
+							if (!replay.Valid)
+							{
+								continue;
+							}
 
-                if (MapParser.IsValidExt(ext))
-                {
-                    maps.Add(file);
-                }
-                else
-                {
-                    switch (ext)
-                    {
-                        case "phxr":
-                            Replay replay = new(file);
+							replays.Add(replay);
+							break;
+					}
+				}
+			}
 
-                            if (!replay.Valid)
-                            {
-                                continue;
-                            }
+			if (maps.Count > 0)
+			{
+				MapParser.BulkImport([.. maps]);
 
-                            replays.Add(replay);
-                            break;
-                    }
-                }
-            }
+				if (SceneManager.Scene is MainMenu)
+				{
+					var menu = SceneManager.Scene as MainMenu;
+					menu.Transition(menu.PlayMenu);
+				}
+			}
 
-            if (maps.Count > 0)
-            {
-                MapParser.BulkImport([.. maps]);
+			if (replays.Count > 0)
+			{
+				List<Replay> matching = [];
 
-                if (SceneManager.Scene is MainMenu)
-                {
-                    var menu = SceneManager.Scene as MainMenu;
-                    menu.Transition(menu.PlayMenu);
-                }
-            }
+				foreach (Replay replay in replays)
+				{
+					if (replay == replays[0])
+					{
+						matching.Add(replay);
+					}
+				}
 
-            if (replays.Count > 0)
-            {
-                List<Replay> matching = [];
+				LegacyRunner.Play(MapParser.Decode(matching[0].MapFilePath), matching[0].Speed, matching[0].StartFrom, matching[0].Modifiers, null, [.. matching]);
+			}
+		}));
 
-                foreach (Replay replay in replays)
-                {
-                    if (replay == replays[0])
-                    {
-                        matching.Add(replay);
-                    }
-                }
+		loaded = true;
+	}
 
-                LegacyRunner.Play(MapParser.Decode(matching[0].MapFilePath), matching[0].Speed, matching[0].StartFrom, matching[0].Modifiers, null, [.. matching]);
-            }
-        }));
+	public static void Quit()
+	{
+		var settings = SettingsManager.Instance.Settings;
 
-        loaded = true;
-    }
+		if (Quitting)
+		{
+			return;
+		}
 
-    public static void Quit()
-    {
-        var settings = SettingsManager.Instance.Settings;
+		Quitting = true;
 
-        if (Quitting)
-        {
-            return;
-        }
+		if (!LegacyRunner.CurrentAttempt.IsReplay)
+		{
+			LegacyRunner.CurrentAttempt.Stop();
+		}
 
-        Quitting = true;
+		Stats.TotalPlaytime += (Time.GetTicksUsec() - Constants.STARTED) / 1000000;
 
-        if (!LegacyRunner.CurrentAttempt.IsReplay)
-        {
-            LegacyRunner.CurrentAttempt.Stop();
-        }
+		if (loaded)
+		{
+			SettingsManager.Save();
+			Stats.Save();
+		}
 
-        Stats.TotalPlaytime += (Time.GetTicksUsec() - Constants.STARTED) / 1000000;
+		Discord.Client.Dispose();
+		
+		Instance.GetTree().Quit();
+	}
 
-        if (loaded)
-        {
-            SettingsManager.Save();
-            Stats.Save();
-        }
+	public override void _Notification(int what)
+	{
+		if (what == NotificationWMCloseRequest)
+		{
+			if (SceneManager.Scene != null && SceneManager.Scene is LegacyRunner)
+			{
+				Stats.RageQuits++;
+			}
 
-        Discord.Client.Dispose();
-
-        Tween quitTween = Instance.CreateTween();
-        quitTween.TweenCallback(Callable.From(() => { Instance.GetTree().Quit(); })).SetDelay(0.5);
-    }
-
-    public override void _Notification(int what)
-    {
-        if (what == NotificationWMCloseRequest)
-        {
-            if (SceneManager.Scene != null && SceneManager.Scene is LegacyRunner)
-            {
-                Stats.RageQuits++;
-            }
-
-            Quit();
-        }
-        else if (what == NotificationApplicationFocusOut)
-        {
-            Engine.MaxFps = 30;
-        }
-        else if (what == NotificationApplicationFocusIn)
-        {
-            var settings = SettingsManager.Instance.Settings;
-            Engine.MaxFps = settings.LockFPS ? settings.FPS : 0;
-        }
-    }
+			Quit();
+		}
+	}
 }

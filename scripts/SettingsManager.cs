@@ -10,135 +10,152 @@ using Godot.Collections;
 [GlobalClass]
 public partial class SettingsManager : Node
 {
-    public static bool Shown = false;
+	public static bool Shown = false;
 
-    public static bool HideNotifications = false;
+	public static bool HideNotifications = false;
 
-    public static SettingsMenu Menu;
+	public static ColorRect Menu;
 
-    public static SettingsManager Instance { get; private set; }
+	public static SettingsManager Instance { get; private set; }
 
-    public SettingsProfile Settings = new SettingsProfile();
+	public SettingsProfile Settings = new SettingsProfile();
 
-    [Signal]
-    public delegate void SavedEventHandler();
+	[Signal]
+	public delegate void MenuToggledEventHandler(bool shown);
 
-    [Signal]
-    public delegate void LoadedEventHandler();
+	[Signal]
+	public delegate void SavedEventHandler();
 
-    public override void _Ready()
-    {
-        Instance = this;
+	[Signal]
+	public delegate void LoadedEventHandler();
 
-        Menu = SceneManager.Instance.GetNode<SettingsMenu>("Settings");
-    }
+	public override void _Ready()
+	{
+		Instance = this;
 
-    public static void Save(string profile = null)
-    {
-        profile ??= GetCurrentProfile();
+		Menu = SceneManager.Instance.GetNode<ColorRect>("Settings");
 
-        string data = SettingsProfileConverter.Serialize(Instance.Settings);
+		HideMenu();
+	}
 
-        File.WriteAllText($"{Constants.USER_FOLDER}/profiles/{profile}.json", data);
+	public static void ShowMenu(bool show = true)
+	{
+		Shown = show;
 
-        Logger.Log($"Saved settings {profile}");
+		Instance.EmitSignal(SignalName.MenuToggled, Shown);
+	}
 
-        Instance.EmitSignal(SignalName.Saved);
+	public static void HideMenu()
+	{
+		ShowMenu(false);
+	}
 
-        SkinManager.Save();
-    }
+	public static void Save(string profile = null)
+	{
+		profile ??= GetCurrentProfile();
 
-    public static void Load(string profile = null)
-    {
-        profile ??= GetCurrentProfile();
+		string data = SettingsProfileConverter.Serialize(Instance.Settings);
 
-        try
-        {
-            SettingsProfileConverter.Deserialize($"{Constants.USER_FOLDER}/profiles/{profile}.json", Instance.Settings);
+		File.WriteAllText($"{Constants.USER_FOLDER}/profiles/{profile}.json", data);
 
-            ToastNotification.Notify($"Loaded profile [{profile}]");
-        }
-        catch (Exception exception)
-        {
-            ToastNotification.Notify("Settings file corrupted", 2);
-            Logger.Error(exception);
-        }
+		Logger.Log($"Saved settings {profile}");
 
-        if (!Directory.Exists($"{Constants.USER_FOLDER}/skins/{Instance.Settings.Skin.Value}"))
-        {
-            Instance.Settings.Skin.Value = new("default");
-            ToastNotification.Notify($"Could not find skin {Instance.Settings.Skin.Value}", 1);
-        }
+		Instance.EmitSignal(SignalName.Saved);
 
-        static void addUserContentToSettingsList(SettingsItem<string> settingsItem, IEnumerable<string> options)
-        {
-            foreach (string option in options)
-            {
-                string name = option.GetFile().GetBaseName();
+		SkinManager.Save();
+	}
 
-                if (settingsItem.List.Values.IndexOf(name) == -1)
-                {
-                    settingsItem.List.Values.Add(name);
-                }
-            }
-        }
+	public static void Load(string profile = null)
+	{
+		profile ??= GetCurrentProfile();
 
-        addUserContentToSettingsList(Instance.Settings.Skin, Directory.GetDirectories($"{Constants.USER_FOLDER}/skins"));
-        addUserContentToSettingsList(Instance.Settings.NoteColors, Directory.GetFiles($"{Constants.USER_FOLDER}/colorsets"));
+		try
+		{
+			SettingsProfileConverter.Deserialize($"{Constants.USER_FOLDER}/profiles/{profile}.json", Instance.Settings);
 
-        Logger.Log($"Loaded settings {profile}");
+			ToastNotification.Notify($"Loaded profile [{profile}]");
+		}
+		catch (Exception exception)
+		{
+			ToastNotification.Notify("Settings file corrupted", 2);
+			Logger.Error(exception);
+		}
 
-        Instance.EmitSignal(SignalName.Loaded);
+		if (!Directory.Exists($"{Constants.USER_FOLDER}/skins/{Instance.Settings.Skin.Value}"))
+		{
+			Instance.Settings.Skin.Value = new("default");
+			ToastNotification.Notify($"Could not find skin {Instance.Settings.Skin.Value}", 1);
+		}
 
-        SkinManager.Load();
-    }
+		void addUserContentToSettingsList(SettingsItem<string> settingsItem, IEnumerable<string> options)
+		{
+			foreach (string option in options)
+			{
+				string name = option.GetFile().GetBaseName();
 
-    public static void Reload()
-    {
-        Save();
-        Load();
-    }
+				if (settingsItem.List.Values.IndexOf(name) == -1)
+				{
+					settingsItem.List.Values.Add(name);
+				}
+			}
+		}
 
-    public static void SetCurrentProfile(string profile = null)
-    {
-        profile ??= GetCurrentProfile();
+		addUserContentToSettingsList(Instance.Settings.Skin, Directory.GetDirectories($"{Constants.USER_FOLDER}/skins"));
+		addUserContentToSettingsList(Instance.Settings.NoteColors, Directory.GetFiles($"{Constants.USER_FOLDER}/colorsets"));
 
-        File.WriteAllText($"{Constants.USER_FOLDER}/current_profile.txt", profile);
-    }
+		Logger.Log($"Loaded settings {profile}");
 
-    public static string GetCurrentProfile()
-    {
-        string file = $"{Constants.USER_FOLDER}/current_profile.txt";
+		Instance.EmitSignal(SignalName.Loaded);
 
-        if (File.Exists(file))
-        {
-            return File.ReadAllText(file);
-        }
+		SkinManager.Load();
+	}
 
-        return "default";
-    }
+	public static void Reload()
+	{
+		Save();
+		Load();
+	}
 
-    // the HideNotifications bool exists to prevent a lot of toasts that inform the user of changing the skin to "default",
-    // this bool is only used inside of SkinManager - line 164.
-    public static void ResetToDefaults()
-    {
-        HideNotifications = true;
+	public static void SetCurrentProfile(string profile = null)
+	{
+		profile ??= GetCurrentProfile();
 
-        SettingsProfile defaults = new SettingsProfile();
+		File.WriteAllText($"{Constants.USER_FOLDER}/current_profile.txt", profile);
+	}
 
-        foreach (var property in typeof(SettingsProfile).GetProperties())
-        {
-            if (!typeof(ISettingsItem).IsAssignableFrom(property.PropertyType)) continue;
+	public static string GetCurrentProfile()
+	{
+		string file = $"{Constants.USER_FOLDER}/current_profile.txt";
 
-            ISettingsItem current = (ISettingsItem)property.GetValue(Instance.Settings);
-            ISettingsItem defs = (ISettingsItem)property.GetValue(defaults);
+		if (File.Exists(file))
+		{
+			return File.ReadAllText(file);
+		}
 
-            current.SetVariant(defs.GetVariant());
-        }
+		return "default";
+	}
 
-        Save();
-        HideNotifications = false;
+	// the HideNotifications bool exists to prevent a lot of toasts that inform the user of changing the skin to "default",
+	// this bool is only used inside of SkinManager - line 164.
+	public static void ResetToDefaults()
+	{
+		HideNotifications = true;
 
-        ToastNotification.Notify("Settings reset to default successfully!");
-    }
+		SettingsProfile defaults = new SettingsProfile();
+
+		foreach(var property in typeof(SettingsProfile).GetProperties())
+		{
+			if (!typeof(ISettingsItem).IsAssignableFrom(property.PropertyType)) continue;
+
+			ISettingsItem current = (ISettingsItem)property.GetValue(Instance.Settings);
+			ISettingsItem defs = (ISettingsItem)property.GetValue(defaults);
+
+			current.SetVariant(defs.GetVariant());
+		}
+
+		Save();
+		HideNotifications = false;
+
+		ToastNotification.Notify("Settings reset to default successfully!");
+	}
 }

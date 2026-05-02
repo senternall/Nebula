@@ -1,170 +1,167 @@
+using Godot;
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Godot;
 using Updatum;
 
 public partial class Loading : BaseScene
 {
-    private Color opaque = new(1, 1, 1, 1);
-    private Color transparent = new(1, 1, 1, 0);
+	private Color opaque = new(1, 1, 1, 1);
+	private Color transparent = new(1, 1, 1, 0);
 
-    private ColorRect background;
-    private TextureRect splash;
-    private TextureRect splashShift;
-    private Label progressLabel;
-    private Panel progressBar;
-    private Panel progressBarFill;
+	private ColorRect background;
+	private TextureRect splash;
+	private TextureRect splashShift;
+	private Label progressLabel;
+	private Panel progressBar;
+	private Panel progressBarFill;
 
-    public override async void _Ready()
-    {
-        base._Ready();
+	public override async void _Ready()
+	{
+		base._Ready();
 
 
-        background = GetNode<ColorRect>("Background");
-        splash = GetNode<TextureRect>("Splash");
-        splashShift = GetNode<TextureRect>("SplashShift");
-        progressLabel = GetNode<Label>("ProgressLabel");
-        progressBar = GetNode<Panel>("ProgressBar");
-        progressBarFill = progressBar.GetNode<Panel>("Fill");
+		background = GetNode<ColorRect>("Background");
+		splash = GetNode<TextureRect>("Splash");
+		splashShift = GetNode<TextureRect>("SplashShift");
+		progressLabel = GetNode<Label>("ProgressLabel");
+		progressBar = GetNode<Panel>("ProgressBar");
+		progressBarFill = progressBar.GetNode<Panel>("Fill");
 
-        progressLabel.Modulate = transparent;
-        progressBar.Modulate = transparent;
+		progressLabel.Modulate = transparent;
+		progressBar.Modulate = transparent;
 
-        bool updateFound = false;
-        try
-        {
-            updateFound = await Releases.CheckForUpdatesAsync();
-        }
-        catch (Exception ex)
-        {
-            Logger.Log($"Could not get latest release: {ex.Message}");
-        }
+		bool updateFound = false;
+		try
+		{
+			updateFound = await Releases.CheckForUpdatesAsync();
+		}
+		catch (Exception ex)
+		{
+			Logger.Log($"Could not get latest release: {ex.Message}");
+		}
 
-        if (updateFound)
-        {
-            var popup = new OptionPopup("Update Found", "Would you like to download the new version?");
-            popup.AddOption("Update", Callable.From(updateStep));
-            popup.AddOption("Cancel", Callable.From(mapInitializeStep));
+		if (updateFound)
+		{
+			var popup = new OptionPopup("Update Found", "Would you like to download the new version?");
+			popup.AddOption("Yes", Callable.From(updateStep));
+			popup.AddOption("No", Callable.From(mapInitializeStep));
+			popup.Show();
+		}
+		else
+		{
+			mapInitializeStep();
+		}
+	}
 
-            popup.Canceled += mapInitializeStep;
+	private void updateStep()
+	{
+		Tween inTween = CreateTween().SetTrans(Tween.TransitionType.Quad).SetParallel();
+		inTween.TweenProperty(background, "color", Color.FromHtml("#090009"), 1);
+		inTween.TweenProperty(splash, "modulate", opaque, 0.5);
+		inTween.TweenProperty(splashShift, "modulate", opaque, 0.25);
+		inTween.TweenProperty(progressLabel, "modulate", opaque, 0.5);
+		inTween.TweenProperty(progressBar, "modulate", opaque, 0.5);
 
-            popup.Show();
-        }
-        else
-        {
-            mapInitializeStep();
-        }
-    }
+		inTween.SetParallel(false);
 
-    private void updateStep()
-    {
-        Tween inTween = CreateTween().SetTrans(Tween.TransitionType.Quad).SetParallel();
-        inTween.TweenProperty(background, "color", Color.FromHtml("#060509"), 1);
-        inTween.TweenProperty(splash, "modulate", opaque, 0.5);
-        inTween.TweenProperty(splashShift, "modulate", opaque, 0.25);
-        inTween.TweenProperty(progressLabel, "modulate", opaque, 0.5);
-        inTween.TweenProperty(progressBar, "modulate", opaque, 0.5);
+		inTween.SetTrans(Tween.TransitionType.Sine);
+		inTween.TweenProperty(splashShift, "modulate", transparent, 2.5);
 
-        inTween.SetParallel(false);
+		progressLabel.Text = $"Downloading {Releases.MANAGER.DownloadedPercentage} %";
 
-        inTween.SetTrans(Tween.TransitionType.Sine);
-        inTween.TweenProperty(splashShift, "modulate", transparent, 2.5);
+		Releases.MANAGER.PropertyChanged += updateDownloadBar;
+		Releases.MANAGER.DownloadCompleted += (_, _) =>
+		{
+			Releases.MANAGER.PropertyChanged -= updateDownloadBar;
+			progressLabel.Text = "Installing";
+		};
+		Releases.UpdateToLatest();
+	}
 
-        progressLabel.Text = $"Downloading {Releases.MANAGER.DownloadedPercentage} %";
+	private void mapInitializeStep()
+	{
+		int toSync = MapCache.FilesToSync.Value;
+		bool allSynced = MapCache.FilesSynced.Value == toSync;
 
-        Releases.MANAGER.PropertyChanged += updateDownloadBar;
-        Releases.MANAGER.DownloadCompleted += (_, _) =>
-        {
-            Releases.MANAGER.PropertyChanged -= updateDownloadBar;
-            progressLabel.Text = "Installing";
-        };
-        Releases.UpdateToLatest();
-    }
+		if (allSynced)
+		{
+			progressLabel.Text = "Done!";
+			progressBarFill.AnchorRight = 1;
+		}
+		else
+		{
+			MapCache.FilesSynced.ValueChanged += (_, _) =>
+			{
+				if (allSynced)
+				{
+					return;
+				}
 
-    private void mapInitializeStep()
-    {
-        int toSync = MapCache.FilesToSync.Value;
-        bool allSynced = MapCache.FilesSynced.Value == toSync;
+				int synced = MapCache.FilesSynced.Value;
+				float progress = synced / (float)toSync;
 
-        if (allSynced)
-        {
-            progressLabel.Text = "Done!";
-            progressBarFill.AnchorRight = 1;
-        }
-        else
-        {
-            MapCache.FilesSynced.ValueChanged += (_, _) =>
-            {
-                if (allSynced)
-                {
-                    return;
-                }
+				progressLabel.Text = $"Initializing maps ({synced}/{toSync})";
+				progressBarFill.AnchorRight = progress;
 
-                int synced = MapCache.FilesSynced.Value;
-                float progress = synced / (float)toSync;
+				if (progress >= 1)
+				{
+					allSynced = true;
+					progressLabel.Text = "Done!";
+				}
+			};
+		}
 
-                progressLabel.Text = $"Initializing maps ({synced}/{toSync})";
-                progressBarFill.AnchorRight = progress;
+		Tween inTween = CreateTween().SetTrans(Tween.TransitionType.Quad).SetParallel();
+		inTween.TweenProperty(background, "color", Color.FromHtml("#090009"), 1);
+		inTween.TweenProperty(splash, "modulate", opaque, 0.5);
+		inTween.TweenProperty(splashShift, "modulate", opaque, 0.25);
+		inTween.TweenProperty(progressLabel, "modulate", opaque, 0.5);
+		inTween.TweenProperty(progressBar, "modulate", opaque, 0.5);
 
-                if (progress >= 1)
-                {
-                    allSynced = true;
-                    progressLabel.Text = "Done!";
-                }
-            };
-        }
+		inTween.SetParallel(false);
 
-        Tween inTween = CreateTween().SetTrans(Tween.TransitionType.Quad).SetParallel();
-        inTween.TweenProperty(background, "color", Color.FromHtml("#060509"), 1);
-        inTween.TweenProperty(splash, "modulate", opaque, 0.5);
-        inTween.TweenProperty(splashShift, "modulate", opaque, 0.25);
-        inTween.TweenProperty(progressLabel, "modulate", opaque, 0.5);
-        inTween.TweenProperty(progressBar, "modulate", opaque, 0.5);
+		inTween.SetTrans(Tween.TransitionType.Sine);
+		inTween.TweenProperty(splashShift, "modulate", transparent, 2.5);
 
-        inTween.SetParallel(false);
+		inTween.TweenCallback(Callable.From(() =>
+		{
+			if (MapManager.Initialized)
+			{
+				exit();
+			}
+			else
+			{
+				MapManager.MapsInitialized += _ => exit();
+			}
+		}));
+	}
 
-        inTween.SetTrans(Tween.TransitionType.Sine);
-        inTween.TweenProperty(splashShift, "modulate", transparent, 2.5);
+	private void updateDownloadBar(object _, PropertyChangedEventArgs @event)
+	{
+		if (@event.PropertyName == nameof(UpdatumManager.DownloadedPercentage))
+		{
+			CallDeferred("UpdateProgressLabel", $"Downloading {Releases.MANAGER.DownloadedPercentage} %");
+			float progress = (float)Releases.MANAGER.DownloadedPercentage / 100;
+			CallDeferred("UpdateProgressBar", progress);
+		}
+	}
 
-        inTween.TweenCallback(Callable.From(() =>
-        {
-            if (MapManager.Initialized)
-            {
-                exit();
-            }
-            else
-            {
-                MapManager.MapsInitialized += _ => Callable.From(exit).CallDeferred();
-            }
-        }));
-    }
+	public void UpdateProgressBar(float progress)
+	{
+		progressBarFill.AnchorRight = progress;
+	}
 
-    private void updateDownloadBar(object _, PropertyChangedEventArgs @event)
-    {
-        if (@event.PropertyName == nameof(UpdatumManager.DownloadedPercentage))
-        {
-            CallDeferred("UpdateProgressLabel", $"Downloading {Releases.MANAGER.DownloadedPercentage} %");
-            float progress = (float)Releases.MANAGER.DownloadedPercentage / 100;
-            CallDeferred("UpdateProgressBar", progress);
-        }
-    }
+	public void UpdateProgressLabel(string label)
+	{
+		progressLabel.Text = label;
+	}
 
-    public void UpdateProgressBar(float progress)
-    {
-        progressBarFill.AnchorRight = progress;
-    }
-
-    public void UpdateProgressLabel(string label)
-    {
-        progressLabel.Text = label;
-    }
-
-    private void exit()
-    {
-        Tween outTween = CreateTween().SetTrans(Tween.TransitionType.Quad).SetParallel();
-        outTween.TweenProperty(background, "color", Color.Color8(0, 0, 0), 0.5);
-        outTween.TweenProperty(splash, "modulate", Color.Color8(0, 0, 0), 0.5);
-        outTween.Chain().TweenCallback(Callable.From(() => { SceneManager.Load("res://scenes/main_menu.tscn"); }));
-    }
+	private void exit()
+	{
+		Tween outTween = CreateTween().SetTrans(Tween.TransitionType.Quad).SetParallel();
+		outTween.TweenProperty(background, "color", Color.Color8(0, 0, 0), 0.5);
+		outTween.TweenProperty(splash, "modulate", Color.Color8(0, 0, 0), 0.5);
+		outTween.Chain().TweenCallback(Callable.From(() => { SceneManager.Load("res://scenes/main_menu.tscn"); }));
+	}
 }

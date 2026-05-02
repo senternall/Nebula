@@ -1,187 +1,176 @@
+using Godot;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Godot;
 
 public partial class Results : BaseScene
 {
-    private SettingsProfile settings;
+	private SettingsProfile settings;
 
-    private static Panel footer;
-    private static Panel holder;
-    private static TextureRect cover;
+	private static Panel footer;
+	private static Panel holder;
+	private static TextureRect cover;
 
-    public static double LastFrame = 0;
-    public static Vector2 MousePosition = Vector2.Zero;
+	public static double LastFrame = 0;
+	public static Vector2 MousePosition = Vector2.Zero;
 
-    public override void _Ready()
-    {
-        base._Ready();
+	public override void _Ready()
+	{
+		base._Ready();
+		
+		settings = SettingsManager.Instance.Settings;
 
-        settings = SettingsManager.Instance.Settings;
+		footer = GetNode<Panel>("Footer");
+		holder = GetNode<Panel>("Holder");
+		cover = GetNode<TextureRect>("Cover");
 
-        footer = GetNode<Panel>("Footer");
-        holder = GetNode<Panel>("Holder");
-        cover = GetNode<TextureRect>("Cover");
+		Input.MouseMode = settings.UseCursorInMenus ? Input.MouseModeEnum.Hidden : Input.MouseModeEnum.Visible;
+		MenuCursor.Instance.Visible = settings.UseCursorInMenus;
 
-        // stops menu music after going to results scene
-        SoundManager.MenuMusic?.Stop();
+		holder.GetNode<Label>("Title").Text = (LegacyRunner.CurrentAttempt.IsReplay ? "[REPLAY] " : "") + LegacyRunner.CurrentAttempt.Map.PrettyTitle;
+		holder.GetNode<Label>("Difficulty").Text = LegacyRunner.CurrentAttempt.Map.DifficultyName;
+		holder.GetNode<Label>("Mappers").Text = $"by {LegacyRunner.CurrentAttempt.Map.PrettyMappers}";
+		holder.GetNode<Label>("Accuracy").Text = $"{LegacyRunner.CurrentAttempt.Accuracy.ToString().PadDecimals(2)}%";
+		holder.GetNode<Label>("Score").Text = $"{Util.String.PadMagnitude(LegacyRunner.CurrentAttempt.Score.ToString())}";
+		holder.GetNode<Label>("Hits").Text = $"{Util.String.PadMagnitude(LegacyRunner.CurrentAttempt.Hits.ToString())} / {Util.String.PadMagnitude(LegacyRunner.CurrentAttempt.Sum.ToString())}";
+		holder.GetNode<Label>("Status").Text = LegacyRunner.CurrentAttempt.IsReplay ? LegacyRunner.CurrentAttempt.Replays[0].Status : LegacyRunner.CurrentAttempt.Alive ? (LegacyRunner.CurrentAttempt.Qualifies ? "PASSED" : "DISQUALIFIED") : "FAILED";
+		holder.GetNode<Label>("Speed").Text = $"{LegacyRunner.CurrentAttempt.Speed.ToString().PadDecimals(2)}";
+		var time = TimeSpan.FromMilliseconds(LegacyRunner.CurrentAttempt.StartFrom);
+		var time1 = TimeSpan.FromMilliseconds(LegacyRunner.CurrentAttempt.Progress);
+		holder.GetNode<Label>("times").Text = $"{(int)time.TotalMinutes}:{time.Seconds:D2} - {(int)time1.TotalMinutes}:{time1.Seconds:D2}";
 
-        Input.MouseMode = settings.UseCursorInMenus ? Input.MouseModeEnum.Hidden : Input.MouseModeEnum.Visible;
-        MenuCursor.Instance.Visible = settings.UseCursorInMenus;
+		HBoxContainer modifiersContainer = holder.GetNode("Modifiers").GetNode<HBoxContainer>("HBoxContainer");
+		TextureRect modTemplate = modifiersContainer.GetNode<TextureRect>("ModifierTemplate");
 
-        holder.GetNode<Label>("Title").Text = (LegacyRunner.CurrentAttempt.IsReplay ? "[REPLAY] " : "") + LegacyRunner.CurrentAttempt.Map.PrettyTitle;
-        holder.GetNode<Label>("Difficulty").Text = LegacyRunner.CurrentAttempt.Map.DifficultyName;
-        holder.GetNode<Label>("Mappers").Text = $"by {LegacyRunner.CurrentAttempt.Map.PrettyMappers}";
-        holder.GetNode<Label>("Accuracy").Text = $"{LegacyRunner.CurrentAttempt.Accuracy:F2}%";
-        holder.GetNode<Label>("Score").Text = $"{Util.String.PadMagnitude(LegacyRunner.CurrentAttempt.Score.ToString())}";
-        holder.GetNode<Label>("Hits").Text = $"{Util.String.PadMagnitude(LegacyRunner.CurrentAttempt.Hits.ToString())} / {Util.String.PadMagnitude(LegacyRunner.CurrentAttempt.Sum.ToString())}";
-        holder.GetNode<Label>("Status").Text = LegacyRunner.CurrentAttempt.IsReplay ? LegacyRunner.CurrentAttempt.Replays[0].Status : LegacyRunner.CurrentAttempt.Alive ? (LegacyRunner.CurrentAttempt.Qualifies ? "PASSED" : "DISQUALIFIED") : "FAILED";
-        holder.GetNode<Label>("Speed").Text = $"{LegacyRunner.CurrentAttempt.Speed:F2}x";
+		foreach (KeyValuePair<string, bool> mod in LegacyRunner.CurrentAttempt.Mods)
+		{
+			if (mod.Value)
+			{
+				TextureRect icon = modTemplate.Duplicate() as TextureRect;
 
-        HBoxContainer modifiersContainer = holder.GetNode("Modifiers").GetNode<HBoxContainer>("HBoxContainer");
-        TextureRect modTemplate = modifiersContainer.GetNode<TextureRect>("ModifierTemplate");
+				icon.Visible = true;
+				icon.Texture = Util.Misc.GetModIcon(mod.Key);
 
-        foreach (KeyValuePair<string, bool> mod in LegacyRunner.CurrentAttempt.Mods)
-        {
-            if (mod.Value)
-            {
-                TextureRect icon = modTemplate.Duplicate() as TextureRect;
+				modifiersContainer.AddChild(icon);
+			}
+		}
 
-                icon.Visible = true;
-                icon.Texture = Util.Misc.GetModIcon(mod.Key);
+		if (LegacyRunner.CurrentAttempt.Map.CoverBuffer != null)
+		{
+			Image img = Util.Misc.LoadImageFromBuffer(LegacyRunner.CurrentAttempt.Map.CoverBuffer);
+			if (img != null)
+			{
+				cover.Texture = ImageTexture.CreateFromImage(img);
+				GetNode<TextureRect>("CoverBackground").Texture = cover.Texture;
+			}
+		}
 
-                modifiersContainer.AddChild(icon);
-            }
-        }
+		if (LegacyRunner.CurrentAttempt.Map.AudioBuffer != null)
+		{
+			if (!SoundManager.Song.Playing)
+			{
+				SoundManager.Song.Play();
+			}
+		}
 
-        if (LegacyRunner.CurrentAttempt.Map.CoverBuffer != null)
-        {
-            Image img = Util.Misc.LoadImageFromBuffer(LegacyRunner.CurrentAttempt.Map.CoverBuffer);
-            if (img != null)
-            {
-                cover.Texture = ImageTexture.CreateFromImage(img);
-                GetNode<TextureRect>("CoverBackground").Texture = cover.Texture;
-            }
-        }
+		SoundManager.Song.PitchScale = (float)LegacyRunner.CurrentAttempt.Speed;
 
-        if (SettingsManager.Instance.Settings.AutoplayJukebox.Value && LegacyRunner.CurrentAttempt.Map.AudioBuffer != null)
-        {
-            if (!SoundManager.Song.Playing)
-            {
-                SoundManager.Song.Play();
-            }
-        }
+		if (!LegacyRunner.CurrentAttempt.Map.Ephemeral)
+		{
+			// SoundManager.JukeboxIndex = SoundManager.JukeboxQueueInverse[LegacyRunner.CurrentAttempt.Map.ID];
+		}
 
-        SoundManager.Song.PitchScale = (float)LegacyRunner.CurrentAttempt.Speed;
+		Button replayButton = footer.GetNode<Button>("Replay");
 
-        if (!LegacyRunner.CurrentAttempt.Map.Ephemeral)
-        {
-            // SoundManager.JukeboxIndex = SoundManager.JukeboxQueueInverse[LegacyRunner.CurrentAttempt.Map.ID];
-        }
+		footer.GetNode<Button>("Back").Pressed += Stop;
+		footer.GetNode<Button>("Play").Pressed += Replay;
+		replayButton.Visible = !LegacyRunner.CurrentAttempt.Map.Ephemeral;
+		replayButton.Pressed += () =>
+		{
+			string path;
 
-        Button replayButton = footer.GetNode<Button>("Replay");
+			if (LegacyRunner.CurrentAttempt.IsReplay)
+			{
+				path = $"{Constants.USER_FOLDER}/replays/{LegacyRunner.CurrentAttempt.Replays[0].ID}.phxr";
+			}
+			else
+			{
+				path = LegacyRunner.CurrentAttempt.ReplayFile.GetPath();
+			}
 
-        footer.GetNode<Button>("Back").Pressed += Stop;
-        footer.GetNode<Button>("Play").Pressed += Replay;
-        replayButton.Visible = !LegacyRunner.CurrentAttempt.Map.Ephemeral;
-        replayButton.Pressed += () =>
-        {
-            string path;
+			if (File.Exists(path))
+			{
+				Replay replay = new(path);
+				SoundManager.Song.Stop();
+				
+				LegacyRunner.Play(MapParser.Decode(replay.MapFilePath), replay.Speed, replay.StartFrom, replay.Modifiers, null, [replay]);
+			}
+		};
+	}
 
-            if (LegacyRunner.CurrentAttempt.IsReplay)
-            {
-                path = $"{Constants.USER_FOLDER}/replays/{LegacyRunner.CurrentAttempt.Replays[0].ID}.phxr";
-            }
-            else
-            {
-                path = LegacyRunner.CurrentAttempt.ReplayFile.GetPath();
-            }
+	public override void _Process(double delta)
+	{
+		ulong now = Time.GetTicksUsec();
+		delta = (now - LastFrame) / 1000000;
+		LastFrame = now;
 
-            if (File.Exists(path))
-            {
-                Replay replay = new(path);
-                SoundManager.Song.Stop();
+		Vector2 size = GetViewport().GetVisibleRect().Size;
 
-                LegacyRunner.Play(MapParser.Decode(replay.MapFilePath), replay.Speed, replay.StartFrom, replay.Modifiers, null, [replay]);
-            }
-        };
-    }
+		holder.Position = holder.Position.Lerp((size / 2 - MousePosition) * (8 / size.Y), Math.Min(1, (float)delta * 16));
+	}
 
-    public override void _Process(double delta)
-    {
-        ulong now = Time.GetTicksUsec();
-        delta = (now - LastFrame) / 1000000;
-        LastFrame = now;
+	public override void _Input(InputEvent @event)
+	{
+		if (@event is InputEventKey eventKey && eventKey.Pressed)
+		{
+			switch (eventKey.PhysicalKeycode)
+			{
+				case Key.Escape:
+					Stop();
+					break;
+				case Key.Quoteleft:
+					Replay();
+					break;
+			}
+		}
+		else if (@event is InputEventMouseMotion eventMouseMotion)
+		{
+			MousePosition = eventMouseMotion.Position;
+		}
+		else if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.Pressed)
+		{
+			switch (eventMouseButton.ButtonIndex)
+			{
+				case MouseButton.Xbutton1:
+					Stop();
+					break;
+			}
+		}
+	}
 
-        Vector2 size = GetViewport().GetVisibleRect().Size;
+	public override void Load()
+	{
+		base.Load();
 
-        holder.Position = holder.Position.Lerp((size / 2 - MousePosition) * (8 / size.Y), Math.Min(1, (float)delta * 16));
-    }
+		DisplayServer.WindowSetVsyncMode(DisplayServer.VSyncMode.Adaptive);
+	}
 
-    public override void _Input(InputEvent @event)
-    {
-        if (@event is InputEventKey eventKey && eventKey.Pressed && !eventKey.Echo)
-        {
-            switch (eventKey.PhysicalKeycode)
-            {
-                case Key.Escape:
-                    Stop();
-                    break;
-                case Key.Quoteleft:
-                    Replay();
-                    break;
-                case Key.Space:
-                    GetViewport().SetInputAsHandled();
-                    Replay();
-                    break;
-            }
-        }
-        else if (@event is InputEventMouseMotion eventMouseMotion)
-        {
-            MousePosition = eventMouseMotion.Position;
-        }
-        else if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.Pressed)
-        {
-            switch (eventMouseButton.ButtonIndex)
-            {
-                case MouseButton.Xbutton1:
-                    Stop();
-                    break;
-            }
-        }
-    }
+	public void UpdateVolume()
+	{
+		SoundManager.Song.VolumeDb = -80 + 70 * (float)Math.Pow(settings.VolumeMusic.Value / 100, 0.1) * (float)Math.Pow(settings.VolumeMaster.Value / 100, 0.1);
+	}
 
-    public override void Load()
-    {
-        base.Load();
+	public void Replay()
+	{
+		Map map = MapParser.Decode(LegacyRunner.CurrentAttempt.Map.FilePath);
+		map.Ephemeral = LegacyRunner.CurrentAttempt.Map.Ephemeral;
+		SoundManager.Song.Stop();
+		
+		LegacyRunner.Play(map, LegacyRunner.CurrentAttempt.Speed, LegacyRunner.CurrentAttempt.StartFrom, LegacyRunner.CurrentAttempt.Mods);
+	}
 
-        DisplayServer.WindowSetVsyncMode(DisplayServer.VSyncMode.Adaptive);
-    }
-
-    public void UpdateVolume()
-    {
-        SoundManager.Song.VolumeDb = (float)SoundManager.ComputeVolumeDb((float)settings.VolumeMusic.Value, (float)settings.VolumeMaster.Value, 70);
-    }
-
-    public void Replay()
-    {
-        Map map = MapParser.Decode(LegacyRunner.CurrentAttempt.Map.FilePath);
-        map.Ephemeral = LegacyRunner.CurrentAttempt.Map.Ephemeral;
-        SoundManager.Song.Stop();
-
-        LegacyRunner.Play(map, LegacyRunner.CurrentAttempt.Speed, LegacyRunner.CurrentAttempt.StartFrom, LegacyRunner.CurrentAttempt.Mods);
-    }
-
-    public void Stop()
-    {
-        if (!SettingsManager.Instance.Settings.AutoplayJukebox.Value)
-        {
-            SoundManager.StopScopedSession();
-        }
-
-        SoundManager.Song.PitchScale = (float)Lobby.Speed;
-        SoundManager.UpdateVolume();
-        SceneManager.Load("res://scenes/main_menu.tscn");
-    }
+	public void Stop()
+	{
+		SceneManager.Load("res://scenes/main_menu.tscn");
+	}
 }

@@ -13,13 +13,7 @@ public partial class FileInitializer : Node
         objExporter = new Node();
         AddChild(objExporter);
         objExporter.SetScript(script);
-        
-        // Temporary for 0.1.2 as the mesh's faces were fixed
-        if (File.Exists($"{Constants.USER_FOLDER}/meshes/squircle.obj"))
-        {
-            File.Delete($"{Constants.USER_FOLDER}/meshes/squircle.obj");
-        }
-        
+
         deepCopy();
     }
 
@@ -32,8 +26,10 @@ public partial class FileInitializer : Node
             Directory.CreateDirectory(userDir);
         }
 
+
         foreach (string resFile in DirAccess.GetFilesAt($"res://user{resDir}"))
         {
+
             string userFile = $"{userDir}/{resFile}";
             string ext = resFile.GetExtension();
 
@@ -55,6 +51,7 @@ public partial class FileInitializer : Node
 
         foreach (string resFile in ResourceLoader.ListDirectory($"res://user{resDir}").Where(x => x.Last() != '/'))
         {
+
             string userFile = $"{userDir}/{resFile}";
             string ext = resFile.GetExtension();
 
@@ -76,16 +73,15 @@ public partial class FileInitializer : Node
                     break;
                 case "ArrayMesh":
                     objExporter.Call("save_mesh_to_files", resource, userDir, resFile.Replace(".obj", ""));
-                    continue;
+                        continue;
                 default:
                     Logger.Error($"[{resFile}] {resource.GetType().Name} is not supported for the user folder.");
                     continue;
             }
-
             File.WriteAllBytes(userFile, buffer);
         }
 
-        foreach (string dir in DirAccess.GetDirectoriesAt($"res://user{resDir}"))
+        foreach (string dir in Godot.DirAccess.GetDirectoriesAt($"res://user{resDir}"))
         {
             deepCopy($"{resDir}/{dir}");
         }

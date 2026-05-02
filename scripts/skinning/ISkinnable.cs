@@ -1,4 +1,4 @@
 public interface ISkinnable
 {
-    void UpdateSkin(SkinProfile skin);
+	void UpdateSkin(SkinProfile skin);
 }

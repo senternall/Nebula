@@ -1,16 +1,14 @@
-[gd_scene load_steps=10 format=3 uid="uid://v4d7lpllbx57"]
+[gd_scene format=3 uid="uid://v4d7lpllbx57"]
 
 [ext_resource type="Script" uid="uid://ucehkkcmc7xy" path="res://scripts/game/GameComponent.cs" id="1_l8kns"]
-[ext_resource type="Texture2D" uid="uid://b3g4aw54n6bow" path="res://skin/game/grid.png" id="2_cwj52"]
 [ext_resource type="Script" uid="uid://ddtnij8m4eipl" path="res://scripts/game/ui/Grid.cs" id="3_s1qwq"]
-[ext_resource type="Texture2D" uid="uid://3e1tjlr4m0wt" path="res://skin/game/cursor.png" id="4_4op33"]
+[ext_resource type="Texture2D" uid="uid://3e1tjlr4m0wt" path="res://user/skins/nebula/game/cursor.png" id="4_4op33"]
 [ext_resource type="Script" uid="uid://cvaggwr3rrenl" path="res://scripts/game/renderers/NoteRenderer.cs" id="5_oee5v"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a6jk1"]
 resource_name = "Material"
 transparency = 1
 shading_mode = 0
-albedo_texture = ExtResource("2_cwj52")
 texture_repeat = false
 
 [sub_resource type="QuadMesh" id="QuadMesh_c2vyr"]
@@ -31,22 +29,22 @@ distance_fade_min_distance = 1076.07
 material = SubResource("StandardMaterial3D_lvhmj")
 size = Vector2(0.263, 0.263)
 
-[node name="Game" type="Node3D" node_paths=PackedStringArray("Camera", "InterfaceComponents", "Renderers")]
+[node name="Game" type="Node3D" unique_id=1894574540 node_paths=PackedStringArray("Camera", "InterfaceComponents", "Renderers")]
 script = ExtResource("1_l8kns")
 Camera = NodePath("Camera")
 InterfaceComponents = [NodePath("Grid")]
 Renderers = [NodePath("Notes")]
 
-[node name="Camera" type="Camera3D" parent="."]
+[node name="Camera" type="Camera3D" parent="." unique_id=1367589229]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.75)
 
-[node name="Grid" type="MeshInstance3D" parent="." node_paths=PackedStringArray("Cursor")]
+[node name="Grid" type="MeshInstance3D" parent="." unique_id=1491804110 node_paths=PackedStringArray("Cursor")]
 mesh = SubResource("QuadMesh_c2vyr")
 script = ExtResource("3_s1qwq")
 Cursor = NodePath("Cursor")
 
-[node name="Cursor" type="MeshInstance3D" parent="Grid"]
+[node name="Cursor" type="MeshInstance3D" parent="Grid" unique_id=618016146]
 mesh = SubResource("QuadMesh_ifke4")
 
-[node name="Notes" type="Node3D" parent="."]
+[node name="Notes" type="Node3D" parent="." unique_id=414561783]
 script = ExtResource("5_oee5v")

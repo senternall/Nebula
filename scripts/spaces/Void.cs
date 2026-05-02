@@ -1,6 +1,5 @@
 using Godot;
-
-namespace Spaces;
+using System;
 
 public partial class Void : BaseSpace
 {
